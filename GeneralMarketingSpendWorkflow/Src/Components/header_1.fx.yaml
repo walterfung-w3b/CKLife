@@ -1,0 +1,45 @@
+header_1 As CanvasComponent:
+    CurrentUserName: =_currentUserName
+    Fill: =RGBA(255, 255, 255, 1)
+    HeaderWidth: =1366
+    Height: =100
+    PrimaryColor: =_theme.Primary
+    Width: =header_1.HeaderWidth
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    Rectangle2_1 As rectangle:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        Fill: =header_1.PrimaryColor
+        Height: =5
+        Width: =1366
+        Y: =95
+        ZIndex: =1
+
+    Image5_1 As image:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Height: =80
+        Image: =logo
+        PaddingLeft: =10
+        Width: =161
+        Y: =8
+        ZIndex: =2
+
+    Label1_1 As label:
+        Align: =Align.Right
+        BorderColor: =RGBA(0, 18, 107, 1)
+        Color: =RGBA(28, 79, 5, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =49
+        PaddingRight: =15
+        Size: =13
+        Text: ="Hello, " & header_1.CurrentUserName
+        Width: =320
+        X: =1046
+        Y: =41
+        ZIndex: =3
+

@@ -1,0 +1,141 @@
+App As appinfo:
+    BackEnabled: =false
+    OnStart: |-
+        =Concurrent(
+            Set(
+                APPLOADDATA,
+                false
+            ),
+            Set(
+                _theme,
+                {
+                    Primary: ColorValue("#406C07"),
+                    Secondnary: ColorValue("#548B0A"),
+                    Grey: ColorValue("#E3E4E2"),
+                    LightGrey: ColorValue("#EFEFEF"),
+                    Dark: ColorValue("#565661"),
+                    Light: ColorValue("#EFEDBC"),
+                    Orange: ColorValue("#F18700"),
+                    Red: ColorValue("#C40000")
+                }
+            );
+            Set(_months,
+                ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+            );
+            ClearCollect(
+                ColSideMenu,
+                Table(
+                    {
+                        MenuLabel: "My Submission",
+                        MenuIcon: Icon.Person,
+                        MenuScreenNavigate: mySubmissionScreen,
+                        MenuID: 1,
+                        SubMenu: Table(),
+                        Role:"",
+                        Dept:""
+                    },
+                    {
+                        MenuLabel: "Form Submission",
+                        MenuIcon: Icon.AddDocument,
+                        MenuScreenNavigate: Blank(),
+                        MenuID: 2,
+                        Role:"",
+                        Dept:"",
+                        SubMenu: Table(
+                            {
+                                MenuLabel: "Approved Budget",
+                                MenuScreenNavigate: ApprovedBudgetScreen,
+                                MainMenuID: 2,
+                                MenuID: 1,
+                                Dept:"Finance",
+                                Role:""
+                            },
+                            {
+                                MenuLabel: "Spending Request",
+                                MenuScreenNavigate: SpendingRequestScreen,
+                                MainMenuID: 2,
+                                MenuID: 2,
+                                Dept:"",
+                                Role:""
+                            },
+                            {
+                                MenuLabel: "Payment Request",
+                                MenuScreenNavigate: PaymentRequestScreen,
+                                MainMenuID: 2,
+                                MenuID: 3,
+                                Dept:"",
+                                Role:""
+                            },
+                            {
+                                MenuLabel: "Release Budget",
+                                MenuScreenNavigate: ReleasePaymentScreen,
+                                MainMenuID: 2,
+                                MenuID: 4,
+                                Dept:"",
+                                Role:""
+                            }
+                        )
+                    },
+                    {
+                        MenuLabel: "My Approval",
+                        MenuIcon: Icon.DockCheckProperties,
+                        MenuScreenNavigate: ApprovalScreen,
+                        MenuID: 3,
+                        Dept:"",
+                        Role:"",
+                        SubMenu: Table()
+                    },
+                    {
+                        MenuLabel: "All Requests",
+                        MenuIcon: Icon.DocumentWithContent,
+                        MenuScreenNavigate: AllRequestScreen,
+                        MenuID: 4,
+                        Dept:"",
+                        Role:"",
+                        SubMenu: Table()
+                    },
+                    {
+                        MenuLabel: "Export Reports",
+                        MenuIcon: Icon.Publish,
+                        MenuScreenNavigate: ReportScreen,
+                        MenuID: 5,
+                        Dept:"",
+                        Role:"Access Report",
+                        SubMenu: Table()
+                    },
+                    {
+                        MenuLabel: "Admin Config",
+                        MenuIcon: Icon.Key,
+                        MenuScreenNavigate: AdminScreen,
+                        MenuID: 6,
+                        Dept:"",
+                        Role:"Admin",
+                        SubMenu: Table()
+                    }
+                )
+            );
+            
+        );
+        Set(
+            varTabSelected,
+            1
+        );
+        ClearCollect(
+            ColApprovalStatus,
+            Table(
+                {ApprovalStatus: "In Progress"},
+                {ApprovalStatus: "Pending"},
+                {ApprovalStatus: "Approved"},
+                {ApprovalStatus: "Rejected"},
+                {ApprovalStatus: "Cancelled"}
+            )
+        );
+    Theme: =PowerAppsTheme
+
+    Host As hostControl.DefaultHostControlVariant:
+        OnCancel: =false
+        OnEdit: =false
+        OnNew: =false
+        OnSave: =false
+        OnView: =false
+

@@ -1,0 +1,2868 @@
+SpendingRequestScreen As screen:
+    LoadingSpinnerColor: =RGBA(100, 118, 132, 1)
+    OnHidden: |-
+        =NewForm(SpendingRequest);
+        ResetForm(SpendingRequest);
+    OnVisible: |-
+        =UpdateContext({_allowPrevPeriodRequest: Text(LookUp(ColSysConfig, Key="AllowPrevPeriod", Modified), "dd/mm/yyyy hh:mm")});
+
+    mainContainer_5 As groupContainer.verticalAutoLayoutContainer:
+        DropShadow: =DropShadow.Light
+        Height: =Parent.Height
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        RadiusBottomLeft: =4
+        RadiusBottomRight: =4
+        RadiusTopLeft: =4
+        RadiusTopRight: =4
+        Width: =Parent.Width
+        ZIndex: =2
+
+        header_6 As header:
+            HeaderWidth: =Parent.Width
+            LayoutMinHeight: =640
+            LayoutMinWidth: =640
+            Width: =header_6.HeaderWidth
+
+        contentContainer_5 As groupContainer.horizontalAutoLayoutContainer:
+            BorderStyle: =BorderStyle.None
+            DropShadow: =DropShadow.Light
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =2
+            PaddingLeft: =2
+            PaddingTop: =2
+            ZIndex: =2
+
+            menuBar_6 As menuBar:
+                Height: =menuBar_6.sideBarHeight
+                LayoutMinHeight: =640
+                LayoutMinWidth: =640
+                sideBarHeight: =Parent.Height-4
+                ZIndex: =2
+
+            formContainer_3 As groupContainer.verticalAutoLayoutContainer:
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =5
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingLeft: =2
+                PaddingRight: =2
+                ZIndex: =3
+
+                bannerContainer_4 As groupContainer.manualLayoutContainer:
+                    FillPortions: =0
+                    Height: =115
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    ZIndex: =1
+
+                    Image1_3 As image:
+                        BorderColor: =RGBA(32, 54, 71, 1)
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Height: =90
+                        Image: =banner
+                        ImagePosition: =ImagePosition.Fill
+                        Width: =1110
+                        ZIndex: =1
+
+                    Button2_4 As button:
+                        BorderStyle: =BorderStyle.None
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =_theme.Primary
+                        FontWeight: =FontWeight.Semibold
+                        Height: =42
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =Self.Fill
+                        PressedColor: =Self.Color
+                        PressedFill: =Self.HoverFill
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Size: =15
+                        Text: ="Spending Request Submission"
+                        Width: =320
+                        X: =30
+                        Y: =60
+                        ZIndex: =2
+
+                    AllowSubmitPrevPeriodRequest As groupContainer.horizontalAutoLayoutContainer:
+                        DropShadow: =DropShadow.Semilight
+                        Fill: =_theme.LightGrey
+                        Height: =75
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingLeft: =5
+                        RadiusBottomLeft: =4
+                        RadiusBottomRight: =4
+                        RadiusTopLeft: =4
+                        RadiusTopRight: =4
+                        Width: =368
+                        X: =735
+                        Y: =7
+                        ZIndex: =3
+
+                        Label27 As label:
+                            AlignInContainer: =AlignInContainer.Stretch
+                            BorderColor: =RGBA(32, 54, 71, 1)
+                            Color: =_theme.Primary
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            LayoutMinHeight: =35
+                            Size: =12.5
+                            Text: ="Allow Submit Previous Periods Request"
+                            ZIndex: =1
+
+                        Container65 As groupContainer.horizontalAutoLayoutContainer:
+                            AlignInContainer: =AlignInContainer.SetByContainer
+                            FillPortions: =0
+                            Height: =30
+                            LayoutGap: =10
+                            LayoutMinHeight: =100
+                            LayoutMinWidth: =250
+                            LayoutMode: =LayoutMode.Auto
+                            ZIndex: =3
+
+                            Toggle2 As toggleSwitch:
+                                BorderColor: =RGBA(32, 54, 71, 1)
+                                BorderStyle: =BorderStyle.None
+                                Color: =If(Self.Value=false, _theme.Red, _theme.Primary)
+                                Default: =LookUp(ColSysConfig, Key="AllowPrevPeriod", isEnable)
+                                DisplayMode: =If(_userDepartment.Value="Finance",DisplayMode.Edit ,DisplayMode.Disabled) 
+                                FalseFill: =RGBA(128, 130, 133, 1)
+                                FalseText: ="Not Allow"
+                                FontWeight: =FontWeight.Semibold
+                                HandleFill: =RGBA(255, 255, 255, 1)
+                                OnCheck: |
+                                    =IfError(
+                                    Patch('System Config List', LookUp(ColSysConfig, Key="AllowPrevPeriod"),{isEnable:true}),
+                                    Notify("Error: Update Config List failed", NotificationType.Error),
+                                    UpdateIf(ColSysConfig, Key="AllowPrevPeriod",{isEnable:true, Modified:Now()}),
+                                    Notify("Error: Update Config List Collection failed", NotificationType.Error),
+                                    Notify("Update Success! Requestors are allowed to submit request for previous period.", NotificationType.Success)
+                                    );
+                                OnUncheck: |
+                                    =IfError(
+                                    Patch('System Config List', LookUp(ColSysConfig, Key="AllowPrevPeriod"),{isEnable:false}),
+                                    Notify("Error: Update Config List failed", NotificationType.Error),
+                                    UpdateIf(ColSysConfig, Key="AllowPrevPeriod",{isEnable:false, Modified:Now()}),
+                                    Notify("Error: Update Config List Collection failed", NotificationType.Error),
+                                    Notify("Update Success! Requestors are NOT allowed to submit request for previous period.", NotificationType.Success)
+                                    );
+                                Size: =11.5
+                                TrueFill: =_theme.Secondnary
+                                TrueText: ="Allow"
+                                Width: =134
+                                ZIndex: =1
+
+                            Label27_2 As label:
+                                AlignInContainer: =AlignInContainer.Stretch
+                                BorderColor: =RGBA(32, 54, 71, 1)
+                                Color: =_theme.Dark
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                LayoutMinHeight: =20
+                                LayoutMinWidth: =10
+                                PaddingLeft: =2
+                                Size: =11
+                                Text: |-
+                                    ="Last Update: " & Text(LookUp(ColSysConfig, Key="AllowPrevPeriod", Modified), "dd/mm/yyyy hh:mm")
+                                Width: =220
+                                ZIndex: =2
+
+                SpendingRequest As form:
+                    BorderColor: =RGBA(32, 54, 71, 1)
+                    DataSource: ='Spending Request List'
+                    DefaultMode: =FormMode.New
+                    LayoutMinHeight: =250
+                    LayoutMinWidth: =400
+                    OnFailure: |-
+                        =UpdateContext({_isLoading:false});
+                        Notify(SpendingRequest.Error, NotificationType.Error);
+                    OnReset: |-
+                        =UpdateContext({_amount: Blank()});
+                    OnSuccess: |+
+                        =Clear(ColError);
+                        IfError(
+                            Collect(
+                                ColSpendingRequest,
+                                Self.LastSubmit
+                            ),
+                            Collect(
+                                ColError,
+                                {
+                                    Action: "Patch Spending Request Collection",
+                                    Message: First(Errors(ColSpendingRequest)).Message
+                                }
+                            ),
+                            Collect(
+                                ColAllRequests,
+                                Self.LastSubmit
+                            ),
+                            Collect(
+                                ColError,
+                                {
+                                    Action: "Patch All Request Collection",
+                                    Message: First(Errors(ColAllRequests)).Message
+                                }
+                            ),
+                            UpdateIf(
+                                ColAllRequests,
+                                Self.LastSubmit.GUID in GUID0,
+                                {
+                                    Type: "Spending Request",
+                                    RequestID: Self.LastSubmit.ID,
+                                    MaxApprovalLayer: CountRows(
+                                        Split(
+                                            Self.LastSubmit.ApprovalPath,
+                                            ">"
+                                        )
+                                    ),
+                                    Month: First(
+                                        Split(
+                                            Self.LastSubmit.BudgetPeriod,
+                                            "/"
+                                        )
+                                    ),
+                                    Year: Last(
+                                        Split(
+                                            Self.LastSubmit.BudgetPeriod,
+                                            "/"
+                                        )
+                                    )
+                                }
+                            ),
+                            Collect(
+                                ColError,
+                                {
+                                    Action: "Update All Request Collection",
+                                    Message: First(Errors(ColAllRequests)).Message
+                                }
+                            ),
+                            Patch(
+                                'Approval Log',
+                                {
+                                    RequestType: "Spending Request",
+                                    RequestID: Self.LastSubmit.ID,
+                                    Requestor: {
+                                        '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+                                        Claims: "i:0#.f|membership|" & _currentUserEmail,
+                                        Department: "",
+                                        DisplayName: _currentUserName,
+                                        Email: _currentUserEmail,
+                                        JobTitle: "",
+                                        Picture: ""
+                                    },
+                                    Currency: Self.LastSubmit.Currency,
+                                    Amount: Self.LastSubmit.RequestedAmount,
+                                    ApprovalPath: Self.LastSubmit.ApprovalPath,
+                                    Action: "In-progress",
+                                    CurrentApproverEmail: Self.LastSubmit.CurrentApprover
+                                }
+                            ),
+                            Collect(
+                                ColError,
+                                {
+                                    Action: "Patch Approval Log",
+                                    Message: First(Errors('Approval Log')).Message
+                                }
+                            ),
+                            Collect(
+                                ColApprovalLog,
+                                {
+                                    RequestType: "Spending Request",
+                                    RequestID: Self.LastSubmit.ID,
+                                    Requestor: {
+                                        '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+                                        Claims: "i:0#.f|membership|" & _currentUserEmail,
+                                        Department: "",
+                                        DisplayName: _currentUserName,
+                                        Email: _currentUserEmail,
+                                        JobTitle: "",
+                                        Picture: ""
+                                    },
+                                    Currency: Self.LastSubmit.Currency,
+                                    Amount: Self.LastSubmit.RequestedAmount,
+                                    ApprovalPath: Self.LastSubmit.ApprovalPath,
+                                    Action: "In-progress",
+                                    CurrentApproverEmail: Self.LastSubmit.CurrentApprover
+                                }
+                            ),
+                            Collect(
+                                ColError,
+                                {
+                                    Action: "Patch Approval Log Collection",
+                                    Message: First(Errors(ColApprovalLog)).Message
+                                }
+                            )
+                        );
+                        
+                        If(
+                            !IsEmpty(ColError),
+                            UpdateContext({_isLoading: false});
+                            Notify(
+                                First(ColError).Message,
+                                NotificationType.Error
+                            ),
+                            UpdateContext({_startTimer: true})
+                        );
+                        
+                    ZIndex: =2
+
+                    BudgetPeriod_DataCard3 As typedDataCard.textualEditCard:
+                        BorderColor: =RGBA(32, 54, 71, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="BudgetPeriod"
+                        Default: =ThisItem.BudgetPeriod
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,BudgetPeriod)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =98
+                        MaxLength: =DataSourceInfo([@'Spending Request List'], DataSourceInfo.MaxLength, BudgetPeriod)
+                        Required: =true
+                        Update: =ComboBox1_20.Selected.Value & "/" & ComboBox1_21.Selected.Value
+                        Width: =370
+                        X: =0
+                        Y: =0
+                        ZIndex: =1
+
+                        DataCardKey27 As label:
+                            AutoHeight: =true
+                            Color: =_theme.Primary
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =34
+                            Size: =13
+                            Text: ="Budget Period"
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        ErrorMessage27 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =ComboBox1_20.Y + ComboBox1_20.Height
+                            ZIndex: =2
+
+                        StarVisible39 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey27.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey27.Y
+                            ZIndex: =3
+
+                        ComboBox1_21 As combobox:
+                            BorderColor: =_theme.Primary
+                            ChevronBackground: =_theme.Primary
+                            ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+                            ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+                            ChevronHoverBackground: =ColorFade(_theme.Primary, -20%)
+                            ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                            DefaultSelectedItems: |-
+                                ={Value: Text(Today(), "yyyy")}
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayFields: =["Value"]
+                            HoverBorderColor: =Parent.BorderColor
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =_theme.Light
+                            InputTextPlaceholder: ="Year"
+                            IsSearchable: =false
+                            Items: |
+                                =ColBudgetYears
+                            NoSelectionText: ="Year"
+                            PressedColor: =RGBA(255, 255, 255, 1)
+                            PressedFill: =_theme.Primary
+                            SearchFields: =["Value"]
+                            SearchItems: =[]
+                            SelectionFill: =_theme.Primary
+                            SelectMultiple: =false
+                            Size: =13
+                            Width: =147
+                            X: =200
+                            Y: =49
+                            ZIndex: =4
+
+                        ComboBox1_20 As combobox:
+                            BorderColor: =_theme.Primary
+                            ChevronBackground: =_theme.Primary
+                            ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+                            ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+                            ChevronHoverBackground: =ColorFade(_theme.Primary, -20%)
+                            ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                            DefaultSelectedItems: |-
+                                ={Value: Text(Today(), "mmmm", "en-Us")}
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayFields: =["Value"]
+                            HoverBorderColor: =Parent.BorderColor
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =_theme.Light
+                            InputTextPlaceholder: ="Month"
+                            IsSearchable: =false
+                            Items: =_months
+                            NoSelectionText: ="Month"
+                            PressedColor: =RGBA(255, 255, 255, 1)
+                            PressedFill: =_theme.Primary
+                            SearchFields: =["Value"]
+                            SearchItems: =[]
+                            SelectionFill: =_theme.Primary
+                            SelectMultiple: =false
+                            Size: =13
+                            Width: =148
+                            X: =30
+                            Y: =49
+                            ZIndex: =5
+
+                    QuatationNumber_DataCard3 As typedDataCard.textualEditCard:
+                        BorderColor: =_theme.Primary
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="QuotationNumber"
+                        Default: =ThisItem.QuotationNumber
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,QuotationNumber)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        MaxLength: =DataSourceInfo([@'Spending Request List'], DataSourceInfo.MaxLength, QuotationNumber)
+                        Required: =false
+                        Update: =DataCardValue50.Text
+                        Width: =370
+                        X: =1
+                        Y: =1
+                        ZIndex: =1
+
+                        DataCardKey71 As label:
+                            AutoHeight: =true
+                            Color: =_theme.Primary
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =34
+                            Size: =13
+                            Text: ="Quotation Number (Optional)"
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue50 As text:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            BorderThickness: =2
+                            Color: =RGBA(0, 0, 0, 1)
+                            Default: =Parent.Default
+                            DelayOutput: =true
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            FocusedBorderThickness: =4
+                            HoverBorderColor: =RGBA(32, 54, 71, 1)
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =RGBA(205, 209, 213, 1)
+                            MaxLength: =Parent.MaxLength
+                            PaddingLeft: =5
+                            RadiusBottomLeft: =0
+                            RadiusBottomRight: =0
+                            RadiusTopLeft: =0
+                            RadiusTopRight: =0
+                            Size: =13
+                            Tooltip: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: |
+                                =49
+                            ZIndex: =2
+
+                        ErrorMessage71 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardValue50.Y + DataCardValue50.Height
+                            ZIndex: =3
+
+                        StarVisible70 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey71.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey71.Y
+                            ZIndex: =4
+
+                    GUID_DataCard1 As typedDataCard.textualEditCard:
+                        BorderColor: =RGBA(32, 54, 71, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="GUID0"
+                        Default: =ThisItem.GUID
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,GUID)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        MaxLength: =DataSourceInfo([@'Spending Request List'], DataSourceInfo.MaxLength, GUID)
+                        Required: =true
+                        Update: =DataCardValue9.Text
+                        Visible: =false
+                        Width: =370
+                        X: =0
+                        Y: =5
+                        ZIndex: =1
+
+                        DataCardKey41 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =34
+                            Size: =13
+                            Text: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue9 As text:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            BorderThickness: =2
+                            Color: =RGBA(0, 0, 0, 1)
+                            Default: ="SR-"&GUID()
+                            DelayOutput: =true
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            FocusedBorderThickness: =4
+                            HoverBorderColor: =RGBA(32, 54, 71, 1)
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =RGBA(205, 209, 213, 1)
+                            MaxLength: =Parent.MaxLength
+                            PaddingLeft: =5
+                            RadiusBottomLeft: =0
+                            RadiusBottomRight: =0
+                            RadiusTopLeft: =0
+                            RadiusTopRight: =0
+                            Size: =13
+                            Tooltip: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardKey41.Y + DataCardKey41.Height + 5
+                            ZIndex: =2
+
+                        ErrorMessage41 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardValue9.Y + DataCardValue9.Height
+                            ZIndex: =3
+
+                        StarVisible41 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey41.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey41.Y
+                            ZIndex: =4
+
+                    SubmittedDate_DataCard3 As typedDataCard.dateEditCard:
+                        BorderColor: =RGBA(32, 54, 71, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="SubmittedDate"
+                        Default: =ThisItem.SubmittedDate
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,SubmittedDate)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        Required: =true
+                        Update: =Now()
+                        Visible: =false
+                        Width: =370
+                        X: =1
+                        Y: =5
+                        ZIndex: =1
+
+                        DataCardKey47 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =34
+                            Size: =13
+                            Text: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue23 As datepicker:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            CalendarHeaderFill: =RGBA(100, 118, 132, 1)
+                            Color: =RGBA(0, 0, 0, 1)
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            EndYear: =Year(Today())+100
+                            HoverDateFill: =RGBA(205, 209, 213, 1)
+                            IconBackground: =RGBA(100, 118, 132, 1)
+                            IsEditable: =true
+                            PaddingBottom: =0
+                            PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                            SelectedDateFill: =RGBA(100, 118, 132, 1)
+                            StartYear: =1899
+                            Tooltip: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardKey47.Y + DataCardKey47.Height + 5
+                            ZIndex: =2
+
+                        ErrorMessage47 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardValue23.Y + DataCardValue23.Height
+                            ZIndex: =3
+
+                        StarVisible47 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey47.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey47.Y
+                            ZIndex: =4
+
+                    PendingPaymentAmount_DataCard1 As typedDataCard.numberEditCard:
+                        BorderColor: =RGBA(32, 54, 71, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="PendingPaymentAmount"
+                        Default: =ThisItem.PendingPaymentAmount
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,PendingPaymentAmount)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        Required: =false
+                        Update: =Value(DataCardValue31.Text)
+                        Visible: =false
+                        Width: =370
+                        X: =2
+                        Y: =5
+                        ZIndex: =1
+
+                        DataCardKey56 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =34
+                            Size: =13
+                            Text: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue31 As text:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            BorderThickness: =2
+                            Color: =RGBA(0, 0, 0, 1)
+                            Default: =0
+                            DelayOutput: =true
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            FocusedBorderThickness: =4
+                            Format: =TextFormat.Number
+                            HoverBorderColor: =RGBA(32, 54, 71, 1)
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =RGBA(205, 209, 213, 1)
+                            PaddingLeft: =5
+                            RadiusBottomLeft: =0
+                            RadiusBottomRight: =0
+                            RadiusTopLeft: =0
+                            RadiusTopRight: =0
+                            Size: =13
+                            Tooltip: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardKey56.Y + DataCardKey56.Height + 5
+                            ZIndex: =2
+
+                        ErrorMessage56 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardValue31.Y + DataCardValue31.Height
+                            ZIndex: =3
+
+                        StarVisible60 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey56.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey56.Y
+                            ZIndex: =4
+
+                    ApprovedPaymentAmount_DataCard1 As typedDataCard.numberEditCard:
+                        BorderColor: =RGBA(32, 54, 71, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="ApprovedPaymentAmount"
+                        Default: =ThisItem.ApprovedPaymentAmount
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,ApprovedPaymentAmount)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        Required: =false
+                        Update: =Value(DataCardValue35.Text)
+                        Visible: =false
+                        Width: =370
+                        X: =0
+                        Y: =6
+                        ZIndex: =1
+
+                        DataCardKey61 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =34
+                            Size: =13
+                            Text: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue35 As text:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            BorderThickness: =2
+                            Color: =RGBA(0, 0, 0, 1)
+                            Default: =0
+                            DelayOutput: =true
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            FocusedBorderThickness: =4
+                            Format: =TextFormat.Number
+                            HoverBorderColor: =RGBA(32, 54, 71, 1)
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =RGBA(205, 209, 213, 1)
+                            PaddingLeft: =5
+                            RadiusBottomLeft: =0
+                            RadiusBottomRight: =0
+                            RadiusTopLeft: =0
+                            RadiusTopRight: =0
+                            Size: =13
+                            Tooltip: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardKey61.Y + DataCardKey61.Height + 5
+                            ZIndex: =2
+
+                        ErrorMessage61 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardValue35.Y + DataCardValue35.Height
+                            ZIndex: =3
+
+                        StarVisible64 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey61.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey61.Y
+                            ZIndex: =4
+
+                    BudgetPeriodRef_DataCard2 As typedDataCard.dateEditCard:
+                        BorderColor: =RGBA(32, 54, 71, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="BudgetPeriodRef"
+                        Default: =ThisItem.BudgetPeriodRef
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,BudgetPeriodRef)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        Required: =true
+                        Update: =DataCardValue1.SelectedDate
+                        Visible: =false
+                        Width: =370
+                        X: =1
+                        Y: =6
+                        ZIndex: =1
+
+                        DataCardKey1 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =34
+                            Size: =13
+                            Text: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue1 As datepicker:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            CalendarHeaderFill: =RGBA(100, 118, 132, 1)
+                            Color: =RGBA(0, 0, 0, 1)
+                            DefaultDate: =DateValue(Concatenate("1", ComboBox1_20.Selected.Value, ComboBox1_21.Selected.Value), "en-US")
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            EndYear: =Year(Today())+100
+                            HoverDateFill: =RGBA(205, 209, 213, 1)
+                            IconBackground: =RGBA(100, 118, 132, 1)
+                            InputTextPlaceholder: =""
+                            IsEditable: =true
+                            PaddingBottom: =0
+                            PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                            SelectedDateFill: =RGBA(100, 118, 132, 1)
+                            StartYear: =1899
+                            Tooltip: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardKey1.Y + DataCardKey1.Height + 5
+                            ZIndex: =2
+
+                        ErrorMessage1 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardValue1.Y + DataCardValue1.Height
+                            ZIndex: =3
+
+                        StarVisible1 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey1.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey1.Y
+                            ZIndex: =4
+
+                    ReleasedAmount_DataCard1 As typedDataCard.numberEditCard:
+                        BorderColor: =RGBA(32, 54, 71, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="ReleasedAmount"
+                        Default: =ThisItem.ReleasedAmount
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,ReleasedAmount)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        Required: =false
+                        Update: =Value(DataCardValue5.Text)
+                        Visible: =false
+                        Width: =370
+                        X: =2
+                        Y: =6
+                        ZIndex: =1
+
+                        DataCardKey4 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =34
+                            Size: =13
+                            Text: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue5 As text:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            BorderThickness: =2
+                            Color: =RGBA(0, 0, 0, 1)
+                            Default: =0
+                            DelayOutput: =true
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            FocusedBorderThickness: =4
+                            Format: =TextFormat.Number
+                            HoverBorderColor: =RGBA(32, 54, 71, 1)
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =RGBA(205, 209, 213, 1)
+                            PaddingLeft: =5
+                            RadiusBottomLeft: =0
+                            RadiusBottomRight: =0
+                            RadiusTopLeft: =0
+                            RadiusTopRight: =0
+                            Size: =13
+                            Tooltip: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardKey4.Y + DataCardKey4.Height + 5
+                            ZIndex: =2
+
+                        ErrorMessage4 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardValue5.Y + DataCardValue5.Height
+                            ZIndex: =3
+
+                        StarVisible4 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey4.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey4.Y
+                            ZIndex: =4
+
+                    PendingReleaseAmount_DataCard1 As typedDataCard.numberEditCard:
+                        BorderColor: =RGBA(32, 54, 71, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="PendingReleaseAmount"
+                        Default: =ThisItem.PendingReleaseAmount
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,PendingReleaseAmount)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        Required: =false
+                        Update: =Value(DataCardValue7.Text)
+                        Visible: =false
+                        Width: =370
+                        X: =0
+                        Y: =7
+                        ZIndex: =1
+
+                        DataCardKey5 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =34
+                            Size: =13
+                            Text: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue7 As text:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            BorderThickness: =2
+                            Color: =RGBA(0, 0, 0, 1)
+                            Default: =0
+                            DelayOutput: =true
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            FocusedBorderThickness: =4
+                            Format: =TextFormat.Number
+                            HoverBorderColor: =RGBA(32, 54, 71, 1)
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =RGBA(205, 209, 213, 1)
+                            PaddingLeft: =5
+                            RadiusBottomLeft: =0
+                            RadiusBottomRight: =0
+                            RadiusTopLeft: =0
+                            RadiusTopRight: =0
+                            Size: =13
+                            Tooltip: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardKey5.Y + DataCardKey5.Height + 5
+                            ZIndex: =2
+
+                        ErrorMessage5 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardValue7.Y + DataCardValue7.Height
+                            ZIndex: =3
+
+                        StarVisible5 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey5.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey5.Y
+                            ZIndex: =4
+
+                    VendorCode_DataCard1 As typedDataCard.textualEditCard:
+                        BorderColor: =RGBA(32, 54, 71, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="VendorCode"
+                        Default: =ThisItem.VendorCode
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,VendorCode)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        MaxLength: =DataSourceInfo([@'Spending Request List'], DataSourceInfo.MaxLength, VendorCode)
+                        Required: =false
+                        Update: =DataCardValue4.Text
+                        Visible: =false
+                        Width: =370
+                        X: =1
+                        Y: =7
+                        ZIndex: =1
+
+                        DataCardKey10 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =34
+                            Size: =13
+                            Text: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue4 As text:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            BorderThickness: =2
+                            Color: =RGBA(0, 0, 0, 1)
+                            Default: =ComboBox1_26.Selected.Account
+                            DelayOutput: =true
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            FocusedBorderThickness: =4
+                            HoverBorderColor: =RGBA(32, 54, 71, 1)
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =RGBA(205, 209, 213, 1)
+                            MaxLength: =Parent.MaxLength
+                            PaddingLeft: =5
+                            RadiusBottomLeft: =0
+                            RadiusBottomRight: =0
+                            RadiusTopLeft: =0
+                            RadiusTopRight: =0
+                            Size: =13
+                            Tooltip: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardKey10.Y + DataCardKey10.Height + 5
+                            ZIndex: =2
+
+                        ErrorMessage10 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardValue4.Y + DataCardValue4.Height
+                            ZIndex: =3
+
+                        StarVisible10 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey10.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey10.Y
+                            ZIndex: =4
+
+                    Department_DataCard3 As typedDataCard.textualEditCard:
+                        BorderColor: =_theme.Secondnary
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="Department"
+                        Default: =ThisItem.Department
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,Department)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        MaxLength: =DataSourceInfo([@'Spending Request List'], DataSourceInfo.MaxLength, Department)
+                        Required: =true
+                        Update: |-
+                            =If(
+                                ComboBox1_22.Selected.Name = "Others",
+                                If(Not(IsBlank(DataCardValue6_6.Text)) && Len(Trim(DataCardValue6_6.Text)) > 0,"Other - "&DataCardValue6_6.Text),
+                                ComboBox1_22.Selected.Name
+                            )
+                        Width: =370
+                        X: =1
+                        Y: =0
+                        ZIndex: =3
+
+                        DataCardKey67 As label:
+                            AutoHeight: =true
+                            Color: =_theme.Primary
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =34
+                            Size: =13
+                            Text: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        ErrorMessage67 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =If(!Container69.Visible,Parent.Error)
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =ComboBox1_22.Y + ComboBox1_22.Height
+                            ZIndex: =3
+
+                        StarVisible66 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey67.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey67.Y
+                            ZIndex: =4
+
+                        ComboBox1_22 As combobox:
+                            BorderColor: =_theme.Primary
+                            ChevronBackground: =_theme.Primary
+                            ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+                            ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+                            ChevronHoverBackground: =ColorFade(_theme.Primary, -20%)
+                            ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                            DefaultSelectedItems: |-
+                                =If(_userDepartment.Value <> "Marketing" && _userDepartment.Value <> "Sales", {Name: "Others"}, {Name:_userDepartment.Value})
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayFields: =["Name"]
+                            HoverBorderColor: =Parent.BorderColor
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =_theme.Light
+                            InputTextPlaceholder: ="Select Department"
+                            Items: =ColDepartment
+                            NoSelectionText: ="Select Department"
+                            OnChange: =Reset(DataCardValue6_6)
+                            PressedColor: =RGBA(255, 255, 255, 1)
+                            PressedFill: =_theme.Primary
+                            SearchFields: =["Name"]
+                            SearchItems: =Search(ColDepartment,ComboBox1_22.SearchText,Name)
+                            SelectionFill: =_theme.Primary
+                            SelectMultiple: =false
+                            Size: =13
+                            Width: =310
+                            X: =30
+                            Y: =49
+                            ZIndex: =5
+
+                        Container69 As groupContainer:
+                            BorderColor: =Parent.BorderColor
+                            Height: =80
+                            Visible: =ComboBox1_22.Selected.Name="Others"
+                            Width: =Parent.Width
+                            Y: =ErrorMessage67.Y+ErrorMessage67.Height
+                            ZIndex: =8
+
+                            DataCardKey6_6 As label:
+                                AutoHeight: =true
+                                Color: =_theme.Primary
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                FontWeight: =FontWeight.Semibold
+                                Height: =34
+                                Size: =13
+                                Text: ="Please specify other"
+                                Width: =Parent.Width-60
+                                Wrap: =false
+                                X: =30
+                                ZIndex: =1
+
+                            DataCardValue6_6 As text:
+                                BorderColor: =If(IsBlank(Department_DataCard3.Error), Parent.BorderColor, Color.Red)
+                                BorderThickness: =2
+                                Color: =RGBA(0, 0, 0, 1)
+                                Default: =""
+                                DelayOutput: =true
+                                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                DisabledFill: =RGBA(244, 244, 244, 1)
+                                DisplayMode: =Parent.DisplayMode
+                                FocusedBorderThickness: =4
+                                Height: =39
+                                HoverBorderColor: =_theme.Primary
+                                HoverColor: =RGBA(0, 0, 0, 1)
+                                HoverFill: =_theme.LightGrey
+                                MaxLength: =200
+                                PaddingLeft: =5
+                                RadiusBottomLeft: =0
+                                RadiusBottomRight: =0
+                                RadiusTopLeft: =0
+                                RadiusTopRight: =0
+                                Size: =13
+                                Tooltip: ="Department Others Reason"
+                                Width: =Parent.Width-60
+                                X: =30
+                                Y: =39
+                                ZIndex: =2
+
+                            ErrorMessage67_4 As label:
+                                AutoHeight: =true
+                                Color: =RGBA(168, 0, 0, 1)
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                FontWeight: =FontWeight.Semibold
+                                Height: =10
+                                Live: =Live.Assertive
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Text: =If(Parent.Visible, Department_DataCard3.Error)
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardValue6_6.Y+DataCardValue6_6.Height
+                                ZIndex: =3
+
+                            StarVisible66_4 As label:
+                                Align: =Align.Center
+                                Color: =RGBA(32, 54, 71, 1)
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                Height: =DataCardKey67.Height
+                                Size: =13
+                                Text: ="*"
+                                Width: =30
+                                Wrap: =false
+                                Y: =5
+                                ZIndex: =4
+
+                    Category_DataCard3 As typedDataCard.textualEditCard:
+                        BorderColor: =_theme.Secondnary
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="BudgetCategory"
+                        Default: =ThisItem.BudgetCategory
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,BudgetCategory)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        MaxLength: =DataSourceInfo([@'Spending Request List'], DataSourceInfo.MaxLength, BudgetCategory)
+                        Required: =true
+                        Update: |-
+                            =If(
+                                ComboBox1_23.Selected.Name = "Others",
+                                If(Not(IsBlank(DataCardValue6_7.Text)) && Len(Trim(DataCardValue6_7.Text)) > 0,"Other - "&DataCardValue6_7.Text),
+                                ComboBox1_23.Selected.Name
+                            )
+                        Width: =370
+                        X: =2
+                        Y: =0
+                        ZIndex: =3
+
+                        DataCardKey69 As label:
+                            AutoHeight: =true
+                            Color: =_theme.Primary
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =34
+                            Size: =13
+                            Text: ="Budget Category"
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        ErrorMessage69 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =If(!ComboBox1_23.Visible, Parent.Error)
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =ComboBox1_23.Y + ComboBox1_23.Height
+                            ZIndex: =3
+
+                        StarVisible68 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey69.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey69.Y
+                            ZIndex: =4
+
+                        ComboBox1_23 As combobox:
+                            BorderColor: =_theme.Primary
+                            ChevronBackground: =_theme.Primary
+                            ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+                            ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+                            ChevronHoverBackground: =ColorFade(_theme.Primary, -20%)
+                            ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayFields: =["Name"]
+                            HoverBorderColor: =Parent.BorderColor
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =_theme.Light
+                            InputTextPlaceholder: ="Select Category"
+                            IsSearchable: =false
+                            Items: =ColCategory
+                            NoSelectionText: ="Select Category"
+                            OnChange: =Reset(DataCardValue6_7)
+                            PressedColor: =RGBA(255, 255, 255, 1)
+                            PressedFill: =_theme.Primary
+                            SearchFields: =["Name"]
+                            SearchItems: =[]
+                            SelectionFill: =_theme.Primary
+                            SelectMultiple: =false
+                            Size: =13
+                            Width: =310
+                            X: =30
+                            Y: =49
+                            ZIndex: =5
+
+                        Container70 As groupContainer:
+                            BorderColor: =Parent.BorderColor
+                            Height: =80
+                            Visible: =ComboBox1_23.Selected.Name="Others"
+                            Width: =Parent.Width
+                            Y: =ErrorMessage69.Y+ErrorMessage69.Height
+                            ZIndex: =8
+
+                            DataCardKey6_7 As label:
+                                AutoHeight: =true
+                                Color: =_theme.Primary
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                FontWeight: =FontWeight.Semibold
+                                Height: =34
+                                Size: =13
+                                Text: ="Please specify other"
+                                Width: =Parent.Width-60
+                                Wrap: =false
+                                X: =30
+                                ZIndex: =1
+
+                            DataCardValue6_7 As text:
+                                BorderColor: =If(IsBlank(Category_DataCard3.Error), Parent.BorderColor, Color.Red)
+                                BorderThickness: =2
+                                Color: =RGBA(0, 0, 0, 1)
+                                Default: =""
+                                DelayOutput: =true
+                                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                DisabledFill: =RGBA(244, 244, 244, 1)
+                                DisplayMode: =Parent.DisplayMode
+                                FocusedBorderThickness: =4
+                                Height: =39
+                                HoverBorderColor: =_theme.Primary
+                                HoverColor: =RGBA(0, 0, 0, 1)
+                                HoverFill: =_theme.LightGrey
+                                MaxLength: =200
+                                PaddingLeft: =5
+                                RadiusBottomLeft: =0
+                                RadiusBottomRight: =0
+                                RadiusTopLeft: =0
+                                RadiusTopRight: =0
+                                Size: =13
+                                Tooltip: ="Budget Category Others Reason"
+                                Width: =Parent.Width-60
+                                X: =30
+                                Y: =39
+                                ZIndex: =2
+
+                            ErrorMessage69_4 As label:
+                                AutoHeight: =true
+                                Color: =RGBA(168, 0, 0, 1)
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                FontWeight: =FontWeight.Semibold
+                                Height: =10
+                                Live: =Live.Assertive
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Text: =If(Parent.Visible, Category_DataCard3.Error)
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardValue6_7.Y + DataCardValue6_7.Height
+                                ZIndex: =3
+
+                            StarVisible68_4 As label:
+                                Align: =Align.Center
+                                Color: =RGBA(32, 54, 71, 1)
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                Height: =DataCardKey69.Height
+                                Size: =13
+                                Text: ="*"
+                                Width: =30
+                                Wrap: =false
+                                ZIndex: =4
+
+                    Channel_DataCard4 As typedDataCard.textualEditCard:
+                        BorderColor: =_theme.Primary
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="Channel"
+                        Default: =ThisItem.Channel
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,Channel)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        MaxLength: =DataSourceInfo([@'Spending Request List'], DataSourceInfo.MaxLength, Channel)
+                        Required: =true
+                        Update: =ComboBox1_24.Selected.Name
+                        Width: =370
+                        X: =0
+                        Y: =1
+                        ZIndex: =3
+
+                        DataCardKey53 As label:
+                            AutoHeight: =true
+                            Color: =_theme.Primary
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =34
+                            Size: =13
+                            Text: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        ErrorMessage53 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =ComboBox1_24.Y + ComboBox1_24.Height
+                            ZIndex: =3
+
+                        StarVisible52 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey53.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey53.Y
+                            ZIndex: =4
+
+                        ComboBox1_24 As combobox:
+                            BorderColor: =_theme.Primary
+                            ChevronBackground: =_theme.Primary
+                            ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+                            ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+                            ChevronHoverBackground: =ColorFade(_theme.Primary, -20%)
+                            ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayFields: =["Name"]
+                            HoverBorderColor: =Parent.BorderColor
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =_theme.Light
+                            InputTextPlaceholder: ="Select Channel"
+                            Items: =ColChannel
+                            NoSelectionText: ="Select Channel"
+                            PressedColor: =RGBA(255, 255, 255, 1)
+                            PressedFill: =_theme.Primary
+                            SearchFields: =["Name"]
+                            SearchItems: =Search(ColChannel,ComboBox1_24.SearchText,Name)
+                            SelectionFill: =_theme.Primary
+                            SelectMultiple: =false
+                            Size: =13
+                            Width: =310
+                            X: =30
+                            Y: =49
+                            ZIndex: =5
+
+                    VendorName_DataCard3 As typedDataCard.textualEditCard:
+                        BorderColor: =_theme.Primary
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="VendorName"
+                        Default: =ThisItem.VendorName
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,VendorName)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        MaxLength: =DataSourceInfo([@'Spending Request List'], DataSourceInfo.MaxLength, VendorName)
+                        Required: =false
+                        Update: =ComboBox1_26.Selected.Name
+                        Width: =370
+                        X: =2
+                        Y: =1
+                        ZIndex: =3
+
+                        DataCardKey57 As label:
+                            AutoHeight: =true
+                            Color: =_theme.Primary
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =34
+                            Size: =13
+                            Text: ="Vendor Name (Optional)"
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        ErrorMessage57 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =ComboBox1_26.Y + ComboBox1_26.Height
+                            ZIndex: =3
+
+                        StarVisible56 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey57.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey57.Y
+                            ZIndex: =4
+
+                        ComboBox1_26 As combobox:
+                            BorderColor: =_theme.Primary
+                            ChevronBackground: =_theme.Primary
+                            ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+                            ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+                            ChevronHoverBackground: =ColorFade(_theme.Primary, -20%)
+                            ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayFields: =["Name"]
+                            HoverBorderColor: =Parent.BorderColor
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =_theme.Light
+                            InputTextPlaceholder: ="Select Vendor"
+                            Items: =ColVendor
+                            NoSelectionText: ="Select Vendor"
+                            PressedColor: =RGBA(255, 255, 255, 1)
+                            PressedFill: =_theme.Primary
+                            SearchFields: =["Name"]
+                            SearchItems: =Search(ColVendor,ComboBox1_26.SearchText,Name)
+                            SelectionFill: =_theme.Primary
+                            SelectMultiple: =false
+                            Size: =13
+                            Width: =310
+                            X: =30
+                            Y: =49
+                            ZIndex: =5
+
+                    ActivityCode_DataCard4 As typedDataCard.textualEditCard:
+                        BorderColor: =_theme.Primary
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="ActivityCode"
+                        Default: =ThisItem.ActivityCode
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,ActivityCode)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        MaxLength: =DataSourceInfo([@'Spending Request List'], DataSourceInfo.MaxLength, ActivityCode)
+                        Required: =true
+                        Update: |-
+                            =If(
+                                ComboBox1_25.Selected.Code = "Others",
+                                If(Not(IsBlank(DataCardValue6_8.Text)) && Len(Trim(DataCardValue6_8.Text)) > 00,"Other - "&DataCardValue6_8.Text),
+                                ComboBox1_25.Selected.Code
+                            )
+                        Width: =370
+                        X: =0
+                        Y: =2
+                        ZIndex: =3
+
+                        DataCardKey54 As label:
+                            AutoHeight: =true
+                            Color: =_theme.Primary
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =34
+                            Size: =13
+                            Text: ="Activity Code"
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        ErrorMessage54 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =If(!Container64.Visible, Parent.Error)
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =ComboBox1_25.Y + ComboBox1_25.Height
+                            ZIndex: =3
+
+                        StarVisible53 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey54.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey54.Y
+                            ZIndex: =4
+
+                        ComboBox1_25 As combobox:
+                            BorderColor: =_theme.Primary
+                            ChevronBackground: =_theme.Primary
+                            ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+                            ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+                            ChevronHoverBackground: =ColorFade(_theme.Primary, -20%)
+                            ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayFields: =["Code"]
+                            HoverBorderColor: =Parent.BorderColor
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =_theme.Light
+                            InputTextPlaceholder: ="Select Code"
+                            Items: =ColActivityCode
+                            NoSelectionText: ="Select Code"
+                            OnChange: =Reset(DataCardValue6_8)
+                            PressedColor: =RGBA(255, 255, 255, 1)
+                            PressedFill: =_theme.Primary
+                            SearchFields: =["Code"]
+                            SearchItems: =Search(ColActivityCode,ComboBox1_25.SearchText,Code)
+                            SelectionFill: =_theme.Primary
+                            SelectMultiple: =false
+                            Size: =13
+                            Width: =310
+                            X: =30
+                            Y: =49
+                            ZIndex: =5
+
+                        Container64 As groupContainer:
+                            BorderColor: =Parent.BorderColor
+                            Height: =80
+                            Visible: =ComboBox1_25.Selected.Code="Others"
+                            Width: =Parent.Width
+                            Y: =ErrorMessage54.Y+ErrorMessage54.Height
+                            ZIndex: =8
+
+                            DataCardKey6_8 As label:
+                                AutoHeight: =true
+                                Color: =_theme.Primary
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                FontWeight: =FontWeight.Semibold
+                                Height: =34
+                                Size: =13
+                                Text: ="Please specify other"
+                                Visible: =ComboBox1_25.Selected.Code="Others"
+                                Width: =Parent.Width-60
+                                Wrap: =false
+                                X: =30
+                                ZIndex: =1
+
+                            DataCardValue6_8 As text:
+                                BorderColor: =If(IsBlank(ActivityCode_DataCard4.Error), Parent.BorderColor, Color.Red)
+                                BorderThickness: =2
+                                Color: =RGBA(0, 0, 0, 1)
+                                Default: =""
+                                DelayOutput: =true
+                                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                DisabledFill: =RGBA(244, 244, 244, 1)
+                                DisplayMode: =Parent.DisplayMode
+                                FocusedBorderThickness: =4
+                                Height: =39
+                                HoverBorderColor: =_theme.Primary
+                                HoverColor: =RGBA(0, 0, 0, 1)
+                                HoverFill: =_theme.LightGrey
+                                MaxLength: =200
+                                PaddingLeft: =5
+                                RadiusBottomLeft: =0
+                                RadiusBottomRight: =0
+                                RadiusTopLeft: =0
+                                RadiusTopRight: =0
+                                Size: =13
+                                Tooltip: ="Activity Code Others Reason"
+                                Visible: =ComboBox1_25.Selected.Code="Others"
+                                Width: =Parent.Width-60
+                                X: =30
+                                Y: =39
+                                ZIndex: =2
+
+                            StarVisible53_4 As label:
+                                Align: =Align.Center
+                                Color: =RGBA(32, 54, 71, 1)
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                Height: =DataCardKey54.Height
+                                Size: =13
+                                Text: ="*"
+                                Width: =30
+                                Wrap: =false
+                                Y: =5
+                                ZIndex: =3
+
+                            ErrorMessage54_4 As label:
+                                AutoHeight: =true
+                                Color: =RGBA(168, 0, 0, 1)
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                FontWeight: =FontWeight.Semibold
+                                Height: =10
+                                Live: =Live.Assertive
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Text: =If(Parent.Visible, ActivityCode_DataCard4.Error)
+                                Width: =Parent.Width - 60
+                                X: =30
+                                Y: =DataCardValue6_8.Y+DataCardValue6_8.Height
+                                ZIndex: =4
+
+                    Currency_DataCard4 As typedDataCard.textualEditCard:
+                        BorderColor: =_theme.Primary
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="Currency"
+                        Default: =ThisItem.Currency
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,Currency)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        MaxLength: =DataSourceInfo([@'Spending Request List'], DataSourceInfo.MaxLength, Currency)
+                        Required: =true
+                        Update: =ComboBox1_27.Selected.Currency
+                        Width: =370
+                        X: =1
+                        Y: =2
+                        ZIndex: =3
+
+                        DataCardKey58 As label:
+                            AutoHeight: =true
+                            Color: =_theme.Primary
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =34
+                            Size: =13
+                            Text: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        ErrorMessage58 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =ComboBox1_27.Y + ComboBox1_27.Height
+                            ZIndex: =3
+
+                        StarVisible57 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey58.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey58.Y
+                            ZIndex: =4
+
+                        ComboBox1_27 As combobox:
+                            BorderColor: =_theme.Primary
+                            ChevronBackground: =_theme.Primary
+                            ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+                            ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+                            ChevronHoverBackground: =ColorFade(_theme.Primary, -20%)
+                            ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                            DefaultSelectedItems: |-
+                                ={Currency: "HKD"}
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayFields: =["Currency"]
+                            HoverBorderColor: =Parent.BorderColor
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =_theme.Light
+                            InputTextPlaceholder: ="Select Currency"
+                            Items: =ColCurrency
+                            NoSelectionText: ="Select Currency"
+                            PressedColor: =RGBA(255, 255, 255, 1)
+                            PressedFill: =_theme.Primary
+                            SearchFields: =["Currency"]
+                            SearchItems: =Search(ColCurrency,ComboBox1_27.SearchText,Currency)
+                            SelectionFill: =_theme.Primary
+                            SelectMultiple: =false
+                            Size: =13
+                            Width: =310
+                            X: =30
+                            Y: =49
+                            ZIndex: =5
+
+                    RequestedAmount_DataCard2 As typedDataCard.numberEditCard:
+                        BorderColor: =_theme.Primary
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="RequestedAmount"
+                        Default: =ThisItem.RequestedAmount
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,RequestedAmount)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        Required: =true
+                        Update: =_amount
+                        Width: =370
+                        X: =2
+                        Y: =2
+                        ZIndex: =3
+
+                        DataCardKey59 As label:
+                            AutoHeight: =true
+                            Color: =_theme.Primary
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =34
+                            Size: =13
+                            Text: ="Request Amount"
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue38 As text:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            BorderThickness: =2
+                            Color: =RGBA(0, 0, 0, 1)
+                            Default: |-
+                                =Text(_amount, "#,##0.00")
+                            DelayOutput: =true
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            FocusedBorderThickness: =4
+                            HoverBorderColor: =RGBA(32, 54, 71, 1)
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =RGBA(205, 209, 213, 1)
+                            OnChange: |-
+                                =UpdateContext({_amount: IfError(Value(Substitute(Self.Text, ",","")),_amount)});
+                                Reset(Self)
+                            OnSelect: |-
+                                =UpdateContext({_amount: IfError(Value(Substitute(Self.Text, ",","")),_amount)});
+                                Reset(Self)
+                            PaddingLeft: =5
+                            RadiusBottomLeft: =0
+                            RadiusBottomRight: =0
+                            RadiusTopLeft: =0
+                            RadiusTopRight: =0
+                            Size: =13
+                            Tooltip: =Parent.DisplayName
+                            VirtualKeyboardMode: =VirtualKeyboardMode.Numeric
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardKey59.Y + DataCardKey59.Height + 5
+                            ZIndex: =2
+
+                        ErrorMessage59 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardValue38.Y + DataCardValue38.Height
+                            ZIndex: =3
+
+                        StarVisible58 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey59.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey59.Y
+                            ZIndex: =4
+
+                    SpendingPurpose_DataCard2 As typedDataCard.textualEditCard:
+                        BorderColor: =_theme.Primary
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="SpendingPurpose"
+                        Default: =ThisItem.SpendingPurpose
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,SpendingPurpose)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =162
+                        MaxLength: =DataSourceInfo([@'Spending Request List'], DataSourceInfo.MaxLength, SpendingPurpose)
+                        Required: =true
+                        Update: =DataCardValue34.Text
+                        Width: =1110
+                        X: =0
+                        Y: =3
+                        ZIndex: =3
+
+                        DataCardKey55 As label:
+                            AutoHeight: =true
+                            Color: =_theme.Primary
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =34
+                            Size: =13
+                            Text: ="Spending Purpose"
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue34 As text:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            BorderThickness: =2
+                            Color: =RGBA(0, 0, 0, 1)
+                            Default: =Parent.Default
+                            DelayOutput: =true
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            FocusedBorderThickness: =4
+                            Height: =98
+                            HoverBorderColor: =RGBA(32, 54, 71, 1)
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =RGBA(205, 209, 213, 1)
+                            MaxLength: =Parent.MaxLength
+                            Mode: =TextMode.MultiLine
+                            PaddingLeft: =5
+                            RadiusBottomLeft: =0
+                            RadiusBottomRight: =0
+                            RadiusTopLeft: =0
+                            RadiusTopRight: =0
+                            Size: =13
+                            Tooltip: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardKey55.Y + DataCardKey55.Height + 5
+                            ZIndex: =2
+
+                        ErrorMessage55 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardValue34.Y + DataCardValue34.Height
+                            ZIndex: =3
+
+                        StarVisible54 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey55.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey55.Y
+                            ZIndex: =4
+
+                    Attachments_DataCard3 As typedDataCard.attachmentsEditCard:
+                        BorderColor: =_theme.Primary
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="{Attachments}"
+                        Default: =ThisItem.Attachments
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,Attachments)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        Required: =true
+                        Update: =DataCardValue49.Attachments
+                        Width: =1110
+                        X: =0
+                        Y: =4
+                        ZIndex: =3
+
+                        DataCardKey70 As label:
+                            AutoHeight: =true
+                            Color: =_theme.Primary
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =34
+                            Size: =13
+                            Text: ="Supporting Documentation"
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue49 As attachments:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            BorderThickness: =2
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            FocusedBorderThickness: =4
+                            Height: =116
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =_theme.Light
+                            IsInDataCard: =true
+                            ItemColor: =RGBA(255, 255, 255, 1)
+                            ItemFill: =RGBA(100, 118, 132, 1)
+                            ItemHoverColor: =RGBA(0, 0, 0, 1)
+                            ItemHoverFill: =RGBA(205, 209, 213, 1)
+                            Items: =Parent.Default
+                            PaddingBottom: =5
+                            PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                            PaddingRight: =5
+                            PaddingTop: =5
+                            PressedColor: =RGBA(255, 255, 255, 1)
+                            PressedFill: =RGBA(32, 54, 71, 1)
+                            Tooltip: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardKey70.Y + DataCardKey70.Height + 5
+                            ZIndex: =2
+
+                        ErrorMessage70 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardValue49.Y + DataCardValue49.Height
+                            ZIndex: =3
+
+                        StarVisible69 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey70.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey70.Y
+                            ZIndex: =4
+
+                    CurrentApprover_DataCard3 As typedDataCard.textualEditCard:
+                        BorderColor: =RGBA(32, 54, 71, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="CurrentApprover"
+                        Default: =ThisItem.CurrentApprover
+                        DisplayMode: =DisplayMode.View
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,CurrentApprover)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        MaxLength: =DataSourceInfo([@'Spending Request List'], DataSourceInfo.MaxLength, CurrentApprover)
+                        Required: =false
+                        Update: =DataCardValue45.Text
+                        Visible: =false
+                        Width: =370
+                        X: =2
+                        Y: =7
+                        ZIndex: =3
+
+                        DataCardKey66 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =34
+                            Size: =13
+                            Text: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue45 As text:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            BorderThickness: =2
+                            Color: =RGBA(0, 0, 0, 1)
+                            Default: |-
+                                =First(
+                                    SortByColumns(
+                                    Filter(
+                                        ColCurrentApproverPath,
+                                        RequestType.Value = "Spending Request"
+                                    ),"Step", SortOrder.Ascending)
+                                ).Approver
+                            DelayOutput: =true
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            FocusedBorderThickness: =4
+                            HoverBorderColor: =RGBA(32, 54, 71, 1)
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =RGBA(205, 209, 213, 1)
+                            MaxLength: =Parent.MaxLength
+                            PaddingLeft: =5
+                            RadiusBottomLeft: =0
+                            RadiusBottomRight: =0
+                            RadiusTopLeft: =0
+                            RadiusTopRight: =0
+                            Size: =13
+                            Tooltip: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardKey66.Y + DataCardKey66.Height + 5
+                            ZIndex: =2
+
+                        ErrorMessage66 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardValue45.Y + DataCardValue45.Height
+                            ZIndex: =3
+
+                        StarVisible65 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey66.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey66.Y
+                            ZIndex: =4
+
+                    ApprovalPath_DataCard4 As typedDataCard.textualEditCard:
+                        BorderColor: =RGBA(32, 54, 71, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="ApprovalPath"
+                        Default: =ThisItem.ApprovalPath
+                        DisplayMode: =DisplayMode.View
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,ApprovalPath)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        MaxLength: =DataSourceInfo([@'Spending Request List'], DataSourceInfo.MaxLength, ApprovalPath)
+                        Required: =true
+                        Update: =DataCardValue41.Text
+                        Visible: =false
+                        Width: =1110
+                        X: =0
+                        Y: =8
+                        ZIndex: =3
+
+                        DataCardKey62 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =34
+                            Size: =13
+                            Text: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue41 As text:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            BorderThickness: =2
+                            Color: =RGBA(0, 0, 0, 1)
+                            Default: |-
+                                =With(
+                                    {Amount: _amount},
+                                    Concat(
+                                        Filter(
+                                            ColCurrentApproverPath,
+                                            Amount > AmountGreaterThan && RequestType.Value = "Spending Request" ,
+                                            Approver
+                                        ),
+                                        Approver,
+                                        ">"
+                                    )
+                                )
+                            DelayOutput: =true
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            FocusedBorderThickness: =4
+                            HoverBorderColor: =RGBA(32, 54, 71, 1)
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =RGBA(205, 209, 213, 1)
+                            Italic: =true
+                            MaxLength: =Parent.MaxLength
+                            PaddingLeft: =5
+                            RadiusBottomLeft: =0
+                            RadiusBottomRight: =0
+                            RadiusTopLeft: =0
+                            RadiusTopRight: =0
+                            Size: =13
+                            Tooltip: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardKey62.Y + DataCardKey62.Height + 5
+                            ZIndex: =2
+
+                        ErrorMessage62 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardValue41.Y + DataCardValue41.Height
+                            ZIndex: =3
+
+                        StarVisible61 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey62.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey62.Y
+                            ZIndex: =4
+
+                    ApprovalIndicator_DataCard3 As typedDataCard.numberEditCard:
+                        BorderColor: =RGBA(32, 54, 71, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="ApprovalIndicator"
+                        Default: =ThisItem.ApprovalIndicator
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,ApprovalIndicator)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        Required: =false
+                        Update: =Value(DataCardValue42.Text)
+                        Visible: =false
+                        Width: =370
+                        X: =0
+                        Y: =9
+                        ZIndex: =3
+
+                        DataCardKey63 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =34
+                            Size: =13
+                            Text: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue42 As text:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            BorderThickness: =2
+                            Color: =RGBA(0, 0, 0, 1)
+                            Default: =0
+                            DelayOutput: =true
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            FocusedBorderThickness: =4
+                            Format: =TextFormat.Number
+                            HoverBorderColor: =RGBA(32, 54, 71, 1)
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =RGBA(205, 209, 213, 1)
+                            PaddingLeft: =5
+                            RadiusBottomLeft: =0
+                            RadiusBottomRight: =0
+                            RadiusTopLeft: =0
+                            RadiusTopRight: =0
+                            Size: =13
+                            Tooltip: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardKey63.Y + DataCardKey63.Height + 5
+                            ZIndex: =2
+
+                        ErrorMessage63 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardValue42.Y + DataCardValue42.Height
+                            ZIndex: =3
+
+                        StarVisible62 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey63.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey63.Y
+                            ZIndex: =4
+
+                    ApprovalStatus_DataCard4 As typedDataCard.textualEditCard:
+                        BorderColor: =RGBA(32, 54, 71, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="ApprovalStatus"
+                        Default: =ThisItem.ApprovalStatus
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,ApprovalStatus)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        MaxLength: =DataSourceInfo([@'Spending Request List'], DataSourceInfo.MaxLength, ApprovalStatus)
+                        Required: =false
+                        Update: =DataCardValue43.Text
+                        Visible: =false
+                        Width: =370
+                        X: =1
+                        Y: =9
+                        ZIndex: =3
+
+                        DataCardKey64 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =34
+                            Size: =13
+                            Text: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue43 As text:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            BorderThickness: =2
+                            Color: =RGBA(0, 0, 0, 1)
+                            Default: ="In-progress"
+                            DelayOutput: =true
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            FocusedBorderThickness: =4
+                            HoverBorderColor: =RGBA(32, 54, 71, 1)
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =RGBA(205, 209, 213, 1)
+                            MaxLength: =Parent.MaxLength
+                            PaddingLeft: =5
+                            RadiusBottomLeft: =0
+                            RadiusBottomRight: =0
+                            RadiusTopLeft: =0
+                            RadiusTopRight: =0
+                            Size: =13
+                            Tooltip: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardKey64.Y + DataCardKey64.Height + 5
+                            ZIndex: =2
+
+                        ErrorMessage64 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardValue43.Y + DataCardValue43.Height
+                            ZIndex: =3
+
+                        StarVisible63 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey64.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey64.Y
+                            ZIndex: =4
+
+                    SubmittedBy_DataCard4 As typedDataCard.comboBoxEditCard:
+                        BorderColor: =RGBA(32, 54, 71, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="SubmittedBy"
+                        Default: =ThisItem.SubmittedBy
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Spending Request List'],DataSourceInfo.DisplayName,SubmittedBy)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =50
+                        Required: =true
+                        Update: |
+                            ={
+                              '@odata.type':"#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+                              Claims:"i:0#.f|membership|" & Lower(_currentUserEmail),
+                              Department:"", DisplayName:_currentUserEmail,
+                              Email:_currentUserEmail,
+                              JobTitle:".",
+                              Picture:"."
+                            }
+                        Visible: =false
+                        Width: =370
+                        X: =2
+                        Y: =9
+                        ZIndex: =3
+
+                        DataCardKey60 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =34
+                            Size: =13
+                            Text: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            Wrap: =false
+                            X: =30
+                            Y: =10
+                            ZIndex: =1
+
+                        ErrorMessage60 As label:
+                            AutoHeight: =true
+                            Color: =RGBA(168, 0, 0, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =10
+                            Live: =Live.Assertive
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            Text: =Parent.Error
+                            Visible: =Parent.DisplayMode=DisplayMode.Edit
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: =DataCardValue45_1.Y + DataCardValue45_1.Height
+                            ZIndex: =3
+
+                        StarVisible59 As label:
+                            Align: =Align.Center
+                            Color: =RGBA(32, 54, 71, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            Height: =DataCardKey60.Height
+                            Size: =13
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            Wrap: =false
+                            Y: =DataCardKey60.Y
+                            ZIndex: =4
+
+                        DataCardValue45_1 As text:
+                            BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                            BorderThickness: =2
+                            Color: =RGBA(0, 0, 0, 1)
+                            Default: =_currentUserName
+                            DelayOutput: =true
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayMode: =Parent.DisplayMode
+                            FocusedBorderThickness: =4
+                            HoverBorderColor: =RGBA(32, 54, 71, 1)
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =RGBA(205, 209, 213, 1)
+                            PaddingLeft: =5
+                            RadiusBottomLeft: =0
+                            RadiusBottomRight: =0
+                            RadiusTopLeft: =0
+                            RadiusTopRight: =0
+                            Size: =13
+                            Tooltip: =Parent.DisplayName
+                            Width: =Parent.Width - 60
+                            X: =30
+                            Y: |
+                                =49
+                            ZIndex: =5
+
+                Container1_4 As groupContainer.horizontalAutoLayoutContainer:
+                    Fill: =_theme.LightGrey
+                    FillPortions: =0
+                    Height: =68
+                    LayoutAlignItems: =LayoutAlignItems.Center
+                    LayoutGap: =20
+                    LayoutJustifyContent: =LayoutJustifyContent.End
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingRight: =20
+                    ZIndex: =3
+
+                    Button4_7 As button:
+                        BorderStyle: =BorderStyle.None
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =_theme.Primary
+                        FontWeight: =FontWeight.Semibold
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(Self.Fill, -20%)
+                        OnSelect: |-
+                            =If(
+                                !(LookUp(
+                                    'System Config List',
+                                    Key = "AllowPrevPeriod",
+                                    isEnable
+                                )) && DataCardValue1.SelectedDate < Today() && Text(
+                                    DataCardValue1.SelectedDate,
+                                    "mm/yyyy"
+                                ) <> Text(
+                                    Today(),
+                                    "mm/yyyy"
+                                ),
+                                Notify(
+                                    "Request for the previous period is not allowed to submit.",
+                                    NotificationType.Error
+                                ),
+                                Value(DataCardValue38.Text) <= 0,
+                                Notify(
+                                    "Please provide the correct amount number.",
+                                    NotificationType.Error
+                                ),
+                                (!SpendingRequest.Valid) || IsBlank(ComboBox1_20.Selected) || IsBlank(ComboBox1_21.Selected),
+                                Notify(
+                                    "Please fill in all the required fields and attach supporting document.",
+                                    NotificationType.Error
+                                ),
+                                UpdateContext({_isLoading: true});
+                                SubmitForm(SpendingRequest);
+                            )
+                        PressedColor: =Self.Color
+                        PressedFill: =Self.Fill
+                        Size: =15
+                        Text: ="Submit"
+                        Width: =170
+                        ZIndex: =2
+
+    loading_2 As loading:
+        backdropHeight: |
+            =Parent.Height
+        Height: =loading_2.backdropHeight
+        Visible: =_isLoading
+        ZIndex: =3
+
+    Timer1_1 As timer:
+        Duration: =1000
+        Fill: =RGBA(100, 118, 132, 1)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+        OnTimerEnd: |
+            =UpdateContext({_isLoading: false});
+            UpdateContext({_startTimer: false});
+            Navigate(SuccessScreen, ScreenTransition.None, {_action:"OtherForms"});
+            NewForm(SpendingRequest);
+        OnTimerStart: =
+        Reset: =true
+        Start: =_startTimer
+        Visible: =false
+        X: =300
+        Y: =111
+        ZIndex: =4
+

@@ -1,0 +1,281 @@
+{
+  "244b89c5-5cfe-4a8d-98d8-e9e92c7b0a28": {
+    "appActions": [
+      "Run"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Logic flows",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1697/1.0.1697.3780/logicflows/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_logicflows",
+      "parameterHints": {
+        "7471992f-fc54-4ea6-b914-5781ac2f935f": {
+          "value": "shared_sharepointonline"
+        },
+        "8a733f99-1dc2-411b-b235-4d920bd47dc3": {
+          "value": "shared_excelonlinebusiness"
+        },
+        "workflowEntityId": {},
+        "workflowName": {
+          "value": "9bc763a7-9e9b-4139-9b91-68f6e0a377a2"
+        }
+      },
+      "parameterHintsV2": {
+        "shared_excelonlinebusiness": {
+          "value": "8a733f99-1dc2-411b-b235-4d920bd47dc3"
+        },
+        "shared_sharepointonline": {
+          "value": "7471992f-fc54-4ea6-b914-5781ac2f935f"
+        },
+        "workflowEntityId": {},
+        "workflowName": {
+          "value": "9bc763a7-9e9b-4139-9b91-68f6e0a377a2"
+        }
+      }
+    },
+    "datasets": {},
+    "dataSources": [
+      "[MSF]UploadExcelFiletoupdateSharepointList"
+    ],
+    "dependencies": {
+      "shared_excelonlinebusiness": "8a733f99-1dc2-411b-b235-4d920bd47dc3",
+      "shared_sharepointonline": "7471992f-fc54-4ea6-b914-5781ac2f935f"
+    },
+    "dependents": [],
+    "id": "244b89c5-5cfe-4a8d-98d8-e9e92c7b0a28"
+  },
+  "45ad7252-9284-4822-8d8e-479e78fabf38": {
+    "appActions": [
+      "Run"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Logic flows",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1697/1.0.1697.3780/logicflows/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_logicflows",
+      "parameterHints": {
+        "8a733f99-1dc2-411b-b235-4d920bd47dc3": {
+          "value": "shared_excelonlinebusiness"
+        },
+        "workflowEntityId": {},
+        "workflowName": {
+          "value": "f6b4e366-49d0-4461-b045-606cdf7dc070"
+        }
+      },
+      "parameterHintsV2": {
+        "shared_excelonlinebusiness": {
+          "value": "8a733f99-1dc2-411b-b235-4d920bd47dc3"
+        },
+        "workflowEntityId": {},
+        "workflowName": {
+          "value": "f6b4e366-49d0-4461-b045-606cdf7dc070"
+        }
+      }
+    },
+    "datasets": {},
+    "dataSources": [
+      "[MSF]PowerappsTrigger-GenerateERPReport"
+    ],
+    "dependencies": {
+      "shared_excelonlinebusiness": "8a733f99-1dc2-411b-b235-4d920bd47dc3"
+    },
+    "dependents": [],
+    "id": "45ad7252-9284-4822-8d8e-479e78fabf38"
+  },
+  "47a7f506-1ba5-4f59-8292-105f7ce43ad1": {
+    "appActions": [
+      "Run"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Logic flows",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1697/1.0.1697.3780/logicflows/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_logicflows",
+      "parameterHints": {
+        "7471992f-fc54-4ea6-b914-5781ac2f935f": {
+          "value": "shared_sharepointonline"
+        },
+        "8a733f99-1dc2-411b-b235-4d920bd47dc3": {
+          "value": "shared_excelonlinebusiness"
+        },
+        "workflowEntityId": {},
+        "workflowName": {
+          "value": "d3e8cf64-4b4b-48ed-8d8a-45d2a56eb12e"
+        }
+      },
+      "parameterHintsV2": {
+        "shared_excelonlinebusiness": {
+          "value": "8a733f99-1dc2-411b-b235-4d920bd47dc3"
+        },
+        "shared_sharepointonline": {
+          "value": "7471992f-fc54-4ea6-b914-5781ac2f935f"
+        },
+        "workflowEntityId": {},
+        "workflowName": {
+          "value": "d3e8cf64-4b4b-48ed-8d8a-45d2a56eb12e"
+        }
+      }
+    },
+    "datasets": {},
+    "dataSources": [
+      "[MSF]ExportExcelReport"
+    ],
+    "dependencies": {
+      "shared_excelonlinebusiness": "8a733f99-1dc2-411b-b235-4d920bd47dc3",
+      "shared_sharepointonline": "7471992f-fc54-4ea6-b914-5781ac2f935f"
+    },
+    "dependents": [],
+    "id": "47a7f506-1ba5-4f59-8292-105f7ce43ad1"
+  },
+  "7471992f-fc54-4ea6-b914-5781ac2f935f": {
+    "appActions": [
+      "providers/PowerPlatform.Governance/Operations/Read",
+      "providers/PowerPlatform.Governance/Operations/Write",
+      "providers/PowerPlatform.Governance/Operations/Delete"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1697/1.0.1697.3784/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://cklifesci.sharepoint.com/sites/GeneralMarketingSpendWorkflow-UAT": {
+        "dataSources": {
+          "[Test] Approval Path 2": {
+            "tableName": "272e2594-98ef-4c31-a231-4f6494565a4d"
+          },
+          "Account List": {
+            "tableName": "81d19132-f7a1-4c5e-8a08-58e48226ec67"
+          },
+          "Activity Code List": {
+            "tableName": "6a0d288a-2c58-4d70-a9c8-3f728fcbfaf5"
+          },
+          "Approval Log": {
+            "tableName": "1490175d-3177-4725-8cc8-1e5679c795d7"
+          },
+          "Approval Path Condition": {
+            "tableName": "92de3072-cf75-4c21-a70a-1964d4436eb0"
+          },
+          "Approval Path Condition_1": {
+            "tableName": "92de3072-cf75-4c21-a70a-1964d4436eb0"
+          },
+          "Approved Budget Child List": {
+            "tableName": "8309db0e-112b-4ad4-8b19-26688f2d43c6"
+          },
+          "Approved Budget Parent List": {
+            "tableName": "1674d5fc-19ab-46cf-84be-7bff08d45357"
+          },
+          "Category List": {
+            "tableName": "53328e2b-c9c7-4706-a2eb-5c791819c4e6"
+          },
+          "Channel List": {
+            "tableName": "3742d5ae-a0a5-461d-9ae6-14d54f1cf846"
+          },
+          "Currency List": {
+            "tableName": "471cf9b6-5376-4d54-bf49-6a411ab82d2f"
+          },
+          "Department List": {
+            "tableName": "ec79c9b3-84ff-4e33-8f25-2f99e44019b7"
+          },
+          "Outstanding Balance List": {
+            "tableName": "95fc121d-7492-4e13-84a2-07532ae2489a"
+          },
+          "Payment Request List": {
+            "tableName": "7b54f52b-9795-4225-92c8-975912359c2f"
+          },
+          "Release Budget Request List": {
+            "tableName": "02dc781d-1f90-4d4e-a043-4352f7f6225d"
+          },
+          "Spending Request List": {
+            "tableName": "a1875dff-5a50-497b-8599-290fc7da7c7c"
+          },
+          "System Config List": {
+            "tableName": "ae852fe8-49a9-40ad-978f-86625085aef6"
+          },
+          "System Config List_1": {
+            "tableName": "ae852fe8-49a9-40ad-978f-86625085aef6"
+          },
+          "User List": {
+            "tableName": "bdc8f6e4-ee54-452f-a1a0-cb1e26751f5e"
+          },
+          "Vendor List": {
+            "tableName": "ad7d960b-01e7-4aa7-8c64-cdf49159371f"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "Account List",
+      "Activity Code List",
+      "Approval Log",
+      "Approval Path Condition",
+      "Channel List",
+      "Category List",
+      "Currency List",
+      "Department List",
+      "Payment Request List",
+      "Spending Request List",
+      "System Config List",
+      "Vendor List",
+      "User List",
+      "Approval Path Condition_1",
+      "Release Budget Request List",
+      "Outstanding Balance List",
+      "Approved Budget Child List",
+      "Approved Budget Parent List",
+      "[Test] Approval Path 2",
+      "System Config List_1"
+    ],
+    "dependencies": {},
+    "dependents": [
+      "244b89c5-5cfe-4a8d-98d8-e9e92c7b0a28",
+      "47a7f506-1ba5-4f59-8292-105f7ce43ad1"
+    ],
+    "id": "7471992f-fc54-4ea6-b914-5781ac2f935f"
+  },
+  "8a733f99-1dc2-411b-b235-4d920bd47dc3": {
+    "appActions": [],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Excel Online (Business)",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1694/1.0.1694.3752/excelonlinebusiness/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_excelonlinebusiness",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [],
+    "dependencies": {},
+    "dependents": [
+      "244b89c5-5cfe-4a8d-98d8-e9e92c7b0a28",
+      "45ad7252-9284-4822-8d8e-479e78fabf38",
+      "47a7f506-1ba5-4f59-8292-105f7ce43ad1"
+    ],
+    "id": "8a733f99-1dc2-411b-b235-4d920bd47dc3"
+  },
+  "df20af02-bfc3-41f5-ab6f-c41da833a8f8": {
+    "appActions": [
+      "MyProfile_V2",
+      "MyProfile",
+      "UserProfile_V2"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Users",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1702/1.0.1702.3810/office365users/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365users",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Users"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "df20af02-bfc3-41f5-ab6f-c41da833a8f8"
+  }
+}

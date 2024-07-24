@@ -1,0 +1,569 @@
+LoadingScreen As screen:
+    LoadingSpinnerColor: =RGBA(100, 118, 132, 1)
+    OnVisible: |-
+        =If(!APPLOADDATA,
+            Select(Button1)
+        )
+
+    Version As label:
+        Align: =Align.Right
+        BorderColor: =RGBA(32, 54, 71, 1)
+        Color: =RGBA(0, 0, 0, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        Height: =36
+        Size: =13
+        Text: ="Version 1.0.03"
+        Width: =132
+        X: =1218
+        Y: =705
+        ZIndex: =1
+
+    LoadingMsg As label:
+        BorderColor: =RGBA(32, 54, 71, 1)
+        Color: =RGBA(102, 102, 102, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =120
+        Size: =18
+        Text: ="Please wait while we complete the process ..."
+        Width: =538
+        X: =(Parent.Width-LoadingMsg.Width)/2
+        Y: =510
+        ZIndex: =2
+
+    Button1 As button:
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Fill: =RGBA(100, 118, 132, 1)
+        FontWeight: =FontWeight.Semibold
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+        OnSelect: |
+            =Concurrent(
+                Set(
+                    APPLOADDATA,
+                    true
+                ),
+                Set(
+                    _currentUserName,
+                    //"Natalie Wong"
+                    User().FullName
+                );
+                Set(
+                    _currentUserEmail,
+                    //"natalie.wong@ck-lifesciences.com"
+                    Lower(Office365Users.MyProfileV2().mail)
+                );
+                ClearCollect(
+                    ColUserList,
+                    Filter (
+                        'User List',
+                        IsRemoved = false || IsRemoved = Blank()
+                    )
+                );
+                Concurrent(
+                    Set(
+                        _userDepartment,
+                        LookUp(
+                            ColUserList,
+                            UserEmail =
+                            _currentUserEmail
+                        ).Team
+                    ),
+                    Set(
+                        _userFunctionalRole,
+                        LookUp(
+                            ColUserList,
+                            UserEmail = Lower(_currentUserEmail)
+                        ).FunctionalRole
+                    )
+                ),
+                ClearCollect(
+                    ColApprovedBudgetParent,
+                    SortByColumns(
+                        AddColumns(
+                            Sort(
+                                Filter(
+                                    'Approved Budget Parent List',
+                                    IsRemoved = false || IsRemoved = Blank()
+                                ),
+                                ID, SortOrder.Descending
+                            ),
+                            Month,
+                            First(
+                                Split(
+                                    BudgetPeriod,
+                                    "/"
+                                ).Value
+                            ),
+                            Year,
+                            Last(
+                                Split(
+                                    BudgetPeriod,
+                                    "/"
+                                ).Value
+                            )
+                        ),
+                        "ID",
+                        SortOrder.Descending
+                    )
+                ),
+                ClearCollect(
+                    ColApprovedBudgetChild,
+                    SortByColumns(
+                        'Approved Budget Child List',
+                        "ID",
+                        SortOrder.Descending
+                    )
+                ),
+                ClearCollect(
+                    ColSysConfig,
+                    'System Config List'
+                ),
+                ClearCollect(
+                    ColDepartment,
+                    'Department List'
+                ),
+                ClearCollect(
+                    ColCurrency,
+                    'Currency List'
+                ),
+                ClearCollect(
+                    ColCategory,
+                    'Category List'
+                ),
+                ClearCollect(
+                    ColSpendingRequest,
+                    SortByColumns(
+                        'Spending Request List',
+                        "ID",
+                        SortOrder.Descending
+                    )
+                ),
+                //'[Test] Approval Path 2'
+                ClearCollect(
+                    ColAllApprovalPath,
+                    'Approval Path Condition'
+                ),
+                ClearCollect(
+                    ColChannel,
+                    'Channel List'
+                ),
+                ClearCollect(
+                    ColActivityCode,
+                    'Activity Code List'
+                ),
+                ClearCollect(
+                    ColVendor,
+                    'Vendor List'
+                ),
+                ClearCollect(
+                    ColAccountList,
+                    'Account List'
+                ),
+                ClearCollect(
+                    ColPaymentRequest,
+                    SortByColumns(
+                        'Payment Request List',
+                        "ID",
+                        SortOrder.Descending
+                    )
+                ),
+                ClearCollect(
+                    ColReleasePaymentRequest,
+                    SortByColumns(
+                        'Release Budget Request List',
+                        "ID",
+                        SortOrder.Descending
+                    )
+                ),
+                ClearCollect(
+                    ColApprovalLog,
+                    SortByColumns(
+                        'Approval Log',
+                        "ID",
+                        SortOrder.Descending
+                    )
+                ),
+                ClearCollect(
+                    ColOutstandingBalance,
+                    Sort(
+                        Filter(
+                            'Outstanding Balance List',
+                            IsSettled = false || IsSettled = Blank()
+                        ),
+                        ID, SortOrder.Descending
+                    )
+                )
+            );
+            Concurrent(
+                With({
+                    _functionalRole: _userFunctionalRole.Value
+                },
+                    Set(_colSideMenu, RenameColumns(DropColumns(AddColumns(Filter(ColSideMenu, (IsBlank(Role)&&IsBlank(Dept))||  _userDepartment.Value = Dept || Role in _functionalRole), SubMenu2, Filter(SubMenu, (IsBlank(Role)&&IsBlank(Dept))||  _userDepartment.Value = Dept || Role in _functionalRole)), SubMenu), SubMenu2, SubMenu))
+                ),
+                ClearCollect(
+                    ColApprovalPathCondition,
+                    AddColumns(
+                        AddColumns(
+                            ColAllApprovalPath,
+                            ApproverRole,
+                            Role
+                        ),
+                        Approver,
+                        If(
+                            _userDepartment.Value in Department || IsBlank(Department),
+                            LookUp(
+                                ColUserList,
+                                ApproverRole in ApprovalRole.Value,
+                                UserEmail
+                            ),
+                            "Skip"
+                        )
+                    )
+                );
+                ClearCollect(
+                    ColCurrentApproverPath,
+                    Sort(
+                        Filter(
+                            ColApprovalPathCondition,
+                            Approver <> "Skip"
+                        ),
+                        Step,
+                        SortOrder.Ascending
+                    )
+                ),
+                ClearCollect(
+                    ColAllRequests,
+                    AddColumns(
+                        AddColumns(
+                            AddColumns(
+                                ColSpendingRequest,
+                                Type,
+                                "Spending Request",
+                                RequestID,
+                                ID,
+                                MaxApprovalLayer,
+                                CountRows(
+                                    Split(
+                                        ApprovalPath,
+                                        ">"
+                                    )
+                                ),
+                                Month,
+                                First(
+                                    Split(
+                                        BudgetPeriod,
+                                        "/"
+                                    )
+                                ),
+                                Year,
+                                Last(
+                                    Split(
+                                        BudgetPeriod,
+                                        "/"
+                                    )
+                                )
+                            ),
+                            OutstandingPendingAmount,
+                            Sum(
+                                Filter(
+                                    ColOutstandingBalance,
+                                    SpendingRequestID = RequestID && RequestStatus = "In-progress" && RequestType = "Payment Request"
+                                ),
+                                RequestedAmount
+                            ),
+                            OutstandingApprovedAmount,
+                            Sum(
+                                Filter(
+                                    ColOutstandingBalance,
+                                    SpendingRequestID = RequestID && RequestStatus = "Approved" && RequestType = "Payment Request"
+                                ),
+                                RequestedAmount
+                            ),
+                            OutstandingRejectedAmount,
+                            Sum(
+                                Filter(
+                                    ColOutstandingBalance,
+                                    SpendingRequestID = RequestID && RequestStatus = "Rejected" && RequestType = "Payment Request"
+                                ),
+                                RequestedAmount
+                            ),
+                            OutstandingCancelledAmount,
+                            Sum(
+                                Filter(
+                                    ColOutstandingBalance,
+                                    SpendingRequestID = RequestID && RequestStatus = "Cancelled" && RequestType = "Payment Request"
+                                ),
+                                RequestedAmount
+                            ),
+                            OutstandingPendingReleaseAmount,
+                            Sum(
+                                Filter(
+                                    ColOutstandingBalance,
+                                    SpendingRequestID = RequestID && RequestStatus = "In-progress" && RequestType = "Release Payment"
+                                ),
+                                RequestedAmount
+                            ),
+                            OutstandingReleasedAmount,
+                            Sum(
+                                Filter(
+                                    ColOutstandingBalance,
+                                    SpendingRequestID = RequestID && RequestStatus = "Approved" && RequestType = "Release Payment"
+                                ),
+                                RequestedAmount
+                            ),
+                            OutstandingRejectReleaseAmount,
+                            Sum(
+                                Filter(
+                                    ColOutstandingBalance,
+                                    SpendingRequestID = RequestID && RequestStatus = "Rejected" && RequestType = "Release Payment"
+                                ),
+                                RequestedAmount
+                            ),
+                            OutstandingCancelledReleaseAmount,
+                            Sum(
+                                Filter(
+                                    ColOutstandingBalance,
+                                    SpendingRequestID = RequestID && RequestStatus = "Cancelled" && RequestType = "Release Payment"
+                                ),
+                                RequestedAmount
+                            )
+                        ),
+                        RemainingBalance,
+                        RequestedAmount - ApprovedPaymentAmount - OutstandingApprovedAmount - ReleasedAmount - OutstandingReleasedAmount,
+                        ApprovedBalance,
+                        ApprovedPaymentAmount + OutstandingApprovedAmount,
+                        PendingBalance,
+                        PendingPaymentAmount + OutstandingPendingAmount - OutstandingRejectedAmount - OutstandingApprovedAmount - OutstandingCancelledAmount,
+                        ReleasedBalance,
+                        ReleasedAmount + OutstandingReleasedAmount,
+                        PendingReleaseBalance,
+                        PendingReleaseAmount + OutstandingPendingReleaseAmount - OutstandingRejectReleaseAmount - OutstandingReleasedAmount - OutstandingCancelledReleaseAmount
+                    ),
+                    AddColumns(
+                        ColPaymentRequest,
+                        Type,
+                        "Payment Request",
+                        RequestID,
+                        ID,
+                        MaxApprovalLayer,
+                        CountRows(
+                            Split(
+                                ApprovalPath,
+                                ">"
+                            )
+                        ),
+                        Month,
+                        First(
+                            Split(
+                                BudgetPeriod,
+                                "/"
+                            )
+                        ),
+                        Year,
+                        Last(
+                            Split(
+                                BudgetPeriod,
+                                "/"
+                            )
+                        )
+                    ),
+                    AddColumns(
+                        ColReleasePaymentRequest,
+                        Type,
+                        "Release Payment",
+                        RequestID,
+                        ID,
+                        MaxApprovalLayer,
+                        CountRows(
+                            Split(
+                                ApprovalPath,
+                                ">"
+                            )
+                        ),
+                        Month,
+                        First(
+                            Split(
+                                BudgetPeriod,
+                                "/"
+                            )
+                        ),
+                        Year,
+                        Last(
+                            Split(
+                                BudgetPeriod,
+                                "/"
+                            )
+                        )
+                    )
+                ),
+                With(
+                    {
+                        _years: Split(
+                            LookUp(
+                                ColSysConfig,
+                                Key = "BudgetYear",
+                                Value
+                            ),
+                            "-"
+                        )
+                    },
+                    With(
+                        {
+                            _yearStart: Value(First(_years).Value),
+                            _yearEnd: Value(Last(_years).Value)
+                        },
+                        ClearCollect(
+                            ColBudgetYears,
+                            Sequence(
+                                (_yearEnd - _yearStart)+1,
+                                _yearStart
+                            )
+                        )
+                    )
+                ),
+                ClearCollect(
+                    ColReportSpendingRequest,
+                    SortByColumns(
+                        AddColumns(
+                            AddColumns(
+                                AddColumns(
+                                    Sort(
+                                        Filter(
+                                            'Spending Request List',
+                                            ApprovalStatus = "Approved"
+                                        ),
+                                        ID, SortOrder.Descending
+                                    ),
+                                    RequestID,
+                                    ID
+                                ),
+                                OutstandingPendingAmount,
+                                Sum(
+                                    Filter(
+                                        ColOutstandingBalance,
+                                        SpendingRequestID = RequestID && RequestStatus = "In-progress" && RequestType = "Payment Request"
+                                    ),
+                                    RequestedAmount
+                                ),
+                                OutstandingApprovedAmount,
+                                Sum(
+                                    Filter(
+                                        ColOutstandingBalance,
+                                        SpendingRequestID = RequestID && RequestStatus = "Approved" && RequestType = "Payment Request"
+                                    ),
+                                    RequestedAmount
+                                ),
+                                OutstandingRejectedAmount,
+                                Sum(
+                                    Filter(
+                                        ColOutstandingBalance,
+                                        SpendingRequestID = RequestID && RequestStatus = "Rejected" && RequestType = "Payment Request"
+                                    ),
+                                    RequestedAmount
+                                ),
+                                OutstandingCancelledAmount,
+                                Sum(
+                                    Filter(
+                                        ColOutstandingBalance,
+                                        SpendingRequestID = RequestID && RequestStatus = "Cancelled" && RequestType = "Payment Request"
+                                    ),
+                                    RequestedAmount
+                                ),
+                                OutstandingPendingReleaseAmount,
+                                Sum(
+                                    Filter(
+                                        ColOutstandingBalance,
+                                        SpendingRequestID = RequestID && RequestStatus = "In-progress" && RequestType = "Release Payment"
+                                    ),
+                                    RequestedAmount
+                                ),
+                                OutstandingReleasedAmount,
+                                Sum(
+                                    Filter(
+                                        ColOutstandingBalance,
+                                        SpendingRequestID = RequestID && RequestStatus = "Approved" && RequestType = "Release Payment"
+                                    ),
+                                    RequestedAmount
+                                ),
+                                OutstandingRejectReleaseAmount,
+                                Sum(
+                                    Filter(
+                                        ColOutstandingBalance,
+                                        SpendingRequestID = RequestID && RequestStatus = "Rejected" && RequestType = "Release Payment"
+                                    ),
+                                    RequestedAmount
+                                ),
+                                OutstandingCancelledReleaseAmount,
+                                Sum(
+                                    Filter(
+                                        ColOutstandingBalance,
+                                        SpendingRequestID = RequestID && RequestStatus = "Cancelled" && RequestType = "Release Payment"
+                                    ),
+                                    RequestedAmount
+                                )
+                            ),
+                            RemainingBalance,
+                            RequestedAmount - ApprovedPaymentAmount - OutstandingApprovedAmount - ReleasedAmount - OutstandingReleasedAmount,
+                            ApprovedBalance,
+                            ApprovedPaymentAmount + OutstandingApprovedAmount,
+                            PendingBalance,
+                            PendingPaymentAmount + OutstandingPendingAmount - OutstandingRejectedAmount - OutstandingApprovedAmount - OutstandingCancelledAmount,
+                            ReleasedBalance,
+                            ReleasedAmount + OutstandingReleasedAmount,
+                            PendingReleaseBalance,
+                            PendingReleaseAmount + OutstandingPendingReleaseAmount - OutstandingRejectReleaseAmount - OutstandingReleasedAmount - OutstandingCancelledReleaseAmount
+                        ),
+                        "ID",
+                        SortOrder.Descending
+                    )
+                )
+            );
+            Navigate(mySubmissionScreen);
+        Size: =15
+        Text: ="Button"
+        Visible: =false
+        ZIndex: =3
+
+    LoadingBackground As image:
+        BorderColor: =RGBA(32, 54, 71, 1)
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Height: =220
+        Image: =CKLife_Banner1
+        ImagePosition: =ImagePosition.Fill
+        Width: =Parent.Width
+        ZIndex: =4
+
+    Loading As image:
+        BorderColor: =RGBA(32, 54, 71, 1)
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Height: =64
+        Image: =CKLife_Loading
+        Width: =90
+        X: =638
+        Y: =446
+        ZIndex: =7
+
+    Rectangle1 As rectangle:
+        BorderColor: =RGBA(32, 54, 71, 1)
+        Fill: =_theme.Primary
+        Height: =14
+        Width: =1366
+        Y: =754
+        ZIndex: =8
+
+    Image3 As image:
+        BorderColor: =RGBA(32, 54, 71, 1)
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Height: =250
+        Image: =logo
+        Width: =286
+        X: =540
+        Y: =178
+        ZIndex: =9
+
