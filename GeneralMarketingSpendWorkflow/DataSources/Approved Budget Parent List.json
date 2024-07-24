@@ -1,0 +1,52 @@
+[
+  {
+    "ApiId": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+    "CdpRevision": {
+      "BaseUrl": "/",
+      "LastChangedTimeString": "2023-12-18T19:22:13.0100000Z",
+      "RevisionNumber": 1
+    },
+    "ConnectedDataSourceInfoNameMapping": {
+      "{Attachments}": "Attachments",
+      "{Attachments}@odata.type": "{Attachments} ({Attachments}@odata.type)",
+      "{FilenameWithExtension}": "File name with extension",
+      "{FullPath}": "Full Path",
+      "{HasAttachments}": "Has attachments",
+      "{Identifier}": "Identifier",
+      "{IsFolder}": "IsFolder",
+      "{Link}": "Link to item",
+      "{ModerationComment}": "Comments associated with the content approval of this list item",
+      "{ModerationStatus}": "Content approval status",
+      "{Name}": "Name",
+      "{Path}": "Folder path",
+      "{Thumbnail}": "Thumbnail",
+      "{TriggerWindowEndToken}": "Trigger Window End Token",
+      "{TriggerWindowStartToken}": "Trigger Window Start Token",
+      "{VersionNumber}": "Version number",
+      "Author": "Created By",
+      "Author#Claims": "Created By Claims",
+      "BudgetPeriod": "BudgetPeriod",
+      "BudgetPeriodRef": "BudgetPeriodRef",
+      "ComplianceAssetId": "Compliance Asset Id",
+      "Created": "Created",
+      "Currency": "Currency",
+      "Department": "Department",
+      "Editor": "Modified By",
+      "Editor#Claims": "Modified By Claims",
+      "ID": "ID",
+      "IsRemoved": "IsRemoved",
+      "Modified": "Modified",
+      "OData__ColorTag": "Color Tag",
+      "SubmittedBy": "SubmittedBy",
+      "SubmittedBy#Claims": "SubmittedBy Claims",
+      "Title": "Title",
+      "TotalAmount": "TotalAmount"
+    },
+    "DatasetName": "https://cklifesci.sharepoint.com/sites/GeneralMarketingSpendWorkflow-UAT",
+    "EncodeDataset": true,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "Name": "Approved Budget Parent List",
+    "Type": "ConnectedDataSourceInfo"
+  }
+]

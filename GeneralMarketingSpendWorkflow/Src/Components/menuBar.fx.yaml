@@ -1,0 +1,143 @@
+menuBar As CanvasComponent:
+    Fill: =_theme.LightGrey
+    Height: =menuBar.sideBarHeight
+    primaryColor: =_theme.Primary
+    sideBarHeight: |
+        =650
+    userDept: =_userDepartment.Value
+    userRole: |-
+        ={SampleStringField: "SampleText", SampleNumberField: 10, SampleBooleanField: true}
+    Width: =250
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    "MainMenu As gallery.'BrowseLayout_Flexible_SocialFeed_ver5.0'":
+        '#CopilotOverlayLabel': ="Filtered"
+        BorderColor: =RGBA(32, 54, 71, 1)
+        Height: =menuBar.Height
+        Items: =_colSideMenu
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Data
+        TemplatePadding: =4
+        TemplateSize: =Min(50, Self.Height - 60)
+        Width: =menuBar.Width
+        ZIndex: =2
+
+        Rectangle3 As rectangle:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Fill: =menuBar.primaryColor
+            Height: =50
+            OnSelect: =Select(Parent)
+            Visible: =ThisItem.MenuScreenNavigate = App.ActiveScreen
+            Width: =4
+            ZIndex: =1
+
+        MenuIcon As icon.Add:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =menuBar.primaryColor
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(244, 244, 244, 1)
+            Height: =30
+            Icon: =ThisItem.MenuIcon
+            OnSelect: =Select(Parent)
+            Width: =30
+            X: =15
+            Y: =10
+            ZIndex: =2
+
+        MenuLabel As label:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =menuBar.primaryColor
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =50
+            OnSelect: =Select(Parent)
+            PaddingTop: =10
+            Size: =13
+            Text: =ThisItem.MenuLabel
+            Width: =171
+            X: =55
+            ZIndex: =3
+
+        Button3 As button:
+            BorderStyle: =BorderStyle.None
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Fill: =Color.Transparent
+            FontWeight: =FontWeight.Semibold
+            Height: =Parent.TemplateHeight
+            HoverColor: =Color.Transparent
+            HoverFill: =Color.Transparent
+            OnSelect: =Navigate(ThisItem.MenuScreenNavigate);
+            PressedBorderColor: =Color.Transparent
+            PressedColor: =Color.Transparent
+            PressedFill: =Color.Transparent
+            Size: =15
+            Text: =""
+            Width: =242
+            ZIndex: =4
+
+        "SubMenu As gallery.'BrowseLayout_Flexible_SocialFeed_ver5.0'":
+            '#CopilotOverlayLabel': ="Filtered"
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Height: |
+                =With({
+                    _functionalRole: _userFunctionalRole.Value
+                },
+                With({
+                    _filteredList: Filter(ThisItem.SubMenu, (IsBlank(Role)&&IsBlank(Dept))||  _userDepartment.Value = Dept || Role in _functionalRole)
+                },
+                
+                CountRows(_filteredList)*45
+                ))
+            Items: =ThisItem.SubMenu
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            TemplatePadding: =4
+            TemplateSize: =30
+            Visible: =CountRows(ThisItem.SubMenu) > 0
+            Width: =242
+            Y: =55
+            ZIndex: =5
+
+            Rectangle6 As rectangle:
+                BorderColor: =RGBA(0, 18, 107, 1)
+                Fill: =menuBar.primaryColor
+                Height: =Parent.TemplateHeight
+                OnSelect: =Select(Parent)
+                Visible: =ThisItem.MenuScreenNavigate = App.ActiveScreen
+                Width: =4
+                X: =32
+                ZIndex: =1
+
+            Label5 As label:
+                BorderColor: =RGBA(0, 18, 107, 1)
+                Color: =menuBar.primaryColor
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                OnSelect: =Select(Parent)
+                Size: =13
+                Text: =ThisItem.MenuLabel
+                Width: =Parent.Width-50
+                X: =50
+                ZIndex: =2
+
+            Button5 As button:
+                BorderStyle: =BorderStyle.None
+                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                Fill: =Color.Transparent
+                FontWeight: =FontWeight.Semibold
+                HoverColor: =RGBA(255, 255, 255, 1)
+                HoverFill: =Color.Transparent
+                OnSelect: =Navigate(ThisItem.MenuScreenNavigate); Set(_selectedMainMenuID, ThisItem.MainMenuID);
+                PressedColor: =Self.Color
+                PressedFill: =Color.Transparent
+                Size: =15
+                Text: =""
+                Width: =202
+                X: =40
+                ZIndex: =3
+

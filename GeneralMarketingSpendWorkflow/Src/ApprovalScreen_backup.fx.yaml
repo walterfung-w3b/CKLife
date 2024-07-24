@@ -1,0 +1,1493 @@
+ApprovalScreen_backup As screen:
+    LoadingSpinnerColor: =RGBA(100, 118, 132, 1)
+    OnVisible: |
+        =UpdateContext({_navigate:"All"});
+        UpdateContext({_sort: "submitDesc"});
+        Select(onRefresh_3);
+
+    mainContainer_7 As groupContainer.verticalAutoLayoutContainer:
+        DropShadow: =DropShadow.Light
+        Height: =Parent.Height
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        RadiusBottomLeft: =4
+        RadiusBottomRight: =4
+        RadiusTopLeft: =4
+        RadiusTopRight: =4
+        Width: =Parent.Width
+        ZIndex: =1
+
+        header_8 As header:
+            HeaderWidth: =Parent.Width
+            LayoutMinHeight: =640
+            LayoutMinWidth: =640
+            Width: =header_8.HeaderWidth
+
+        contentContainer_7 As groupContainer.horizontalAutoLayoutContainer:
+            BorderStyle: =BorderStyle.None
+            DropShadow: =DropShadow.Light
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =2
+            PaddingLeft: =2
+            PaddingTop: =2
+            ZIndex: =2
+
+            menuBar_8 As menuBar:
+                Height: =menuBar_8.sideBarHeight
+                LayoutMinHeight: =640
+                LayoutMinWidth: =640
+                sideBarHeight: =Parent.Height-4
+                ZIndex: =2
+
+            Container1_19 As groupContainer.verticalAutoLayoutContainer:
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingLeft: =2
+                PaddingRight: =2
+                ZIndex: =3
+
+                bannerContainer_7 As groupContainer.manualLayoutContainer:
+                    FillPortions: =0
+                    Height: =100
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    ZIndex: =1
+
+                    Image1_9 As image:
+                        BorderColor: =RGBA(32, 54, 71, 1)
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Height: =90
+                        Image: =banner
+                        ImagePosition: =ImagePosition.Fill
+                        Width: =1110
+                        ZIndex: =1
+
+                    Button2_7 As button:
+                        BorderStyle: =BorderStyle.None
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =_theme.Primary
+                        FontWeight: =FontWeight.Semibold
+                        Height: =42
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =Self.Fill
+                        PressedColor: =Self.Color
+                        PressedFill: =Self.HoverFill
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Size: =15
+                        Text: ="My Approval"
+                        Width: =280
+                        X: =28
+                        Y: =60
+                        ZIndex: =2
+
+                Container3_3 As groupContainer.horizontalAutoLayoutContainer:
+                    FillPortions: =0
+                    Height: =60
+                    LayoutAlignItems: =LayoutAlignItems.Center
+                    LayoutGap: =2
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingLeft: =15
+                    PaddingRight: =15
+                    ZIndex: =2
+
+                    AllBtn_14 As button:
+                        BorderStyle: =BorderStyle.None
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =If(_navigate="All",_theme.Orange, _theme.Secondnary)
+                        FillPortions: =1
+                        FontWeight: =FontWeight.Semibold
+                        Height: =35
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(Self.Fill, -10%)
+                        OnSelect: |-
+                            =UpdateContext({_navigate:"All"});
+                        PressedColor: =Self.Color
+                        PressedFill: =Self.Fill
+                        RadiusBottomRight: =0
+                        RadiusTopRight: =0
+                        Text: ="All"
+                        Width: =200
+                        ZIndex: =1
+
+                    AllBtn_15 As button:
+                        BorderStyle: =BorderStyle.None
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =If(_navigate="AwaitingApproval",_theme.Orange, _theme.Secondnary)
+                        FillPortions: =1
+                        FontWeight: =FontWeight.Semibold
+                        Height: =35
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(Self.Fill, -10%)
+                        OnSelect: |-
+                            =UpdateContext({_navigate:"AwaitingApproval"});
+                        PressedColor: =Self.Color
+                        PressedFill: =Self.Fill
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Text: ="Awaiting Approval"
+                        Width: =200
+                        ZIndex: =2
+
+                    AllBtn_16 As button:
+                        BorderStyle: =BorderStyle.None
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =If(_navigate="Pending",_theme.Orange, _theme.Secondnary)
+                        FillPortions: =1
+                        FontWeight: =FontWeight.Semibold
+                        Height: =35
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(Self.Fill, -10%)
+                        OnSelect: |-
+                            =UpdateContext({_navigate:"Pending"});
+                        PressedColor: =Self.Color
+                        PressedFill: =Self.Fill
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Text: ="Pending"
+                        Width: =200
+                        ZIndex: =3
+
+                    AllBtn_17 As button:
+                        BorderStyle: =BorderStyle.None
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =If(_navigate="Approved",_theme.Orange, _theme.Secondnary)
+                        FillPortions: =1
+                        FontWeight: =FontWeight.Semibold
+                        Height: =35
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(Self.Fill, -10%)
+                        OnSelect: |-
+                            =UpdateContext({_navigate:"Approved"});
+                        PressedColor: =Self.Color
+                        PressedFill: =Self.Fill
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Text: ="Approved"
+                        Width: =200
+                        ZIndex: =4
+
+                    AllBtn_18 As button:
+                        BorderStyle: =BorderStyle.None
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        Fill: =If(_navigate="Rejected",_theme.Orange, _theme.Secondnary)
+                        FillPortions: =1
+                        FontWeight: =FontWeight.Semibold
+                        Height: =35
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(Self.Fill, -10%)
+                        OnSelect: |-
+                            =UpdateContext({_navigate:"Rejected"});
+                        PressedColor: =Self.Color
+                        PressedFill: =Self.Fill
+                        RadiusBottomLeft: =0
+                        RadiusTopLeft: =0
+                        Text: ="Rejected"
+                        Width: =200
+                        ZIndex: =5
+
+                Container13_7 As groupContainer.horizontalAutoLayoutContainer:
+                    FillPortions: =0
+                    Height: =50
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingLeft: =15
+                    PaddingRight: =15
+                    ZIndex: =3
+
+                    TextInput2_5 As text:
+                        AlignInContainer: =AlignInContainer.Center
+                        BorderColor: =RGBA(32, 54, 71, 1)
+                        BorderThickness: =2
+                        Color: =RGBA(0, 0, 0, 1)
+                        Default: =""
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        FocusedBorderThickness: =4
+                        Height: =36
+                        HintText: ="Search for ID, Activity Code, Quotation, Requestor"
+                        HoverBorderColor: =RGBA(32, 54, 71, 1)
+                        HoverColor: =RGBA(0, 0, 0, 1)
+                        HoverFill: =RGBA(205, 209, 213, 1)
+                        Size: =11.5
+                        Width: =390
+                        ZIndex: =1
+
+                    StatusFilter_6 As groupContainer.horizontalAutoLayoutContainer:
+                        FillPortions: =0
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutMinHeight: =40
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingRight: =2
+                        PaddingTop: =2
+                        Width: =290
+                        ZIndex: =2
+
+                        Label10_14 As label:
+                            Align: =Align.Right
+                            BorderColor: =RGBA(32, 54, 71, 1)
+                            Color: =_theme.Primary
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =36
+                            Size: =13
+                            Text: |-
+                                ="Type: "
+                            Width: =80
+                            ZIndex: =1
+
+                        ComboBox1_92 As combobox:
+                            BorderColor: =_theme.Primary
+                            ChevronBackground: =_theme.Primary
+                            ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+                            ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+                            ChevronHoverBackground: =ColorFade(_theme.Primary, -20%)
+                            ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayFields: =["Value"]
+                            Height: =36
+                            HoverBorderColor: =Parent.BorderColor
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =_theme.Light
+                            InputTextPlaceholder: ="Month"
+                            IsSearchable: =false
+                            Items: =Distinct(ColApprovalRequests, Type)
+                            LayoutMinWidth: =100
+                            NoSelectionText: ="All"
+                            PressedColor: =RGBA(255, 255, 255, 1)
+                            PressedFill: =_theme.Primary
+                            SearchFields: =["Value"]
+                            SearchItems: =[]
+                            SelectionFill: =_theme.Primary
+                            SelectMultiple: =false
+                            Size: =13
+                            Width: =210
+                            X: =30
+                            Y: =49
+                            ZIndex: =2
+
+                    TypeFilter_7 As groupContainer.horizontalAutoLayoutContainer:
+                        FillPortions: =0
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutMinHeight: =40
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingRight: =2
+                        PaddingTop: =2
+                        Width: =280
+                        ZIndex: =3
+
+                        Label10_15 As label:
+                            Align: =Align.Right
+                            BorderColor: =RGBA(32, 54, 71, 1)
+                            Color: =_theme.Primary
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FontWeight: =FontWeight.Semibold
+                            Height: =36
+                            Size: =13
+                            Text: |-
+                                ="Period: "
+                            Width: =80
+                            ZIndex: =1
+
+                        ComboBox1_140 As combobox:
+                            BorderColor: =_theme.Primary
+                            ChevronBackground: =_theme.Primary
+                            ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+                            ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+                            ChevronHoverBackground: =ColorFade(_theme.Primary, -20%)
+                            ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            DisplayFields: =["Value"]
+                            Height: =36
+                            HoverBorderColor: =Parent.BorderColor
+                            HoverColor: =RGBA(0, 0, 0, 1)
+                            HoverFill: =_theme.Light
+                            InputTextPlaceholder: ="Month"
+                            IsSearchable: =false
+                            Items: =Distinct(ColApprovalRequests, BudgetPeriod)
+                            LayoutMinWidth: =100
+                            NoSelectionText: ="All"
+                            PressedColor: =RGBA(255, 255, 255, 1)
+                            PressedFill: =_theme.Primary
+                            SearchFields: =["Value"]
+                            SearchItems: =[]
+                            SelectionFill: =_theme.Primary
+                            SelectMultiple: =false
+                            Size: =13
+                            Width: =200
+                            X: =30
+                            Y: =49
+                            ZIndex: =2
+
+                    Container13_8 As groupContainer.horizontalAutoLayoutContainer:
+                        FillPortions: =0
+                        LayoutMinHeight: =40
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingLeft: =5
+                        Width: =80
+                        ZIndex: =5
+
+                        Icon6_3 As icon.Filter:
+                            AlignInContainer: =AlignInContainer.Stretch
+                            BorderColor: =RGBA(32, 54, 71, 1)
+                            Color: =_theme.Primary
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(244, 244, 244, 1)
+                            Icon: =Icon.Filter
+                            LayoutMinHeight: =40
+                            OnSelect: |-
+                                =UpdateContext({_openFilter:true})
+                            Width: =35
+                            ZIndex: =1
+
+                        Icon2_9 As icon.ArrowsUpDown:
+                            AlignInContainer: =AlignInContainer.Stretch
+                            BorderColor: =RGBA(32, 54, 71, 1)
+                            Color: =_theme.Primary
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(244, 244, 244, 1)
+                            Height: =35
+                            Icon: =Icon.Sort
+                            LayoutMinHeight: =40
+                            OnSelect: |-
+                                =UpdateContext({_openSorting:!_openSorting});
+                            Width: =35
+                            ZIndex: =2
+
+                Container9_1 As groupContainer.manualLayoutContainer:
+                    AlignInContainer: =AlignInContainer.Center
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    Width: =Parent.Width-30
+                    ZIndex: =4
+
+                    "Gallery2_6 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+                        '#CopilotOverlayLabel': ="Filtered"
+                        BorderColor: =RGBA(32, 54, 71, 1)
+                        DelayItemLoading: =true
+                        Height: =Parent.Height
+                        Items: |+
+                            =With(
+                                {
+                                    FilteredStatus: 
+                                        Switch(
+                                            _navigate,
+                                            "All",
+                                            ColApprovalRequests,
+                                            "AwaitingApproval",
+                                            Filter(ColApprovalRequests, CurrentApprover=_currentUserEmail && ApprovalStatus="In-progress"),
+                                            "Pending",
+                                            Filter(ColApprovalRequests, CurrentApprover=_currentUserEmail && ApprovalStatus="Pending"),
+                                            "Approved",
+                                            Filter(ColApprovalRequests, _currentUserEmail in ApprovedBy || _currentUserEmail in ReviewedBy),
+                                            "Rejected",
+                                            Filter(ColApprovalRequests, _currentUserEmail in RejectedBy)
+                                        )
+                                },
+                            
+                            With({
+                                FilteredType:
+                                    If(!IsBlank(ComboBox1_92.Selected.Value),
+                                    Filter(FilteredStatus, Type=ComboBox1_92.Selected.Value),FilteredStatus)
+                            },
+                            
+                            With({
+                                FilteredPeriod:
+                                    If(!IsBlank(ComboBox1_140.Selected.Value),
+                                    Filter(FilteredStatus, BudgetPeriod=ComboBox1_140.Selected.Value),FilteredType)
+                            },
+                            
+                            
+                            
+                            
+                                 With({
+                                      FilteredSearch:
+                                        Filter(FilteredPeriod, 
+                                               StartsWith(ID, TextInput2_5.Text) ||
+                                               TextInput2_5.Text in SubmittedBy.DisplayName ||
+                                               TextInput2_5.Text in Department ||
+                                               TextInput2_5.Text in Channel)
+                            
+                                  },
+                            
+                            
+                                  Switch(_sort,
+                                            "submitAsc",
+                                                Sort(FilteredSearch, Created, SortOrder.Ascending),
+                                            "submitDesc",
+                                                Sort(FilteredSearch, Created, SortOrder.Descending),
+                                            "amountAsc",
+                                                Sort(FilteredSearch, RequestedAmount, SortOrder.Ascending),
+                                            "amountDesc",
+                                                Sort(FilteredSearch, RequestedAmount, SortOrder.Descending)
+                                        ) 
+                                  
+                                 )
+                            )))
+                            
+                        Layout: =Layout.Vertical
+                        LoadingSpinner: =LoadingSpinner.Data
+                        TemplatePadding: =0
+                        TemplateSize: =100
+                        Width: =Parent.Width
+                        ZIndex: =1
+
+                        Button10_5 As button:
+                            BorderStyle: =BorderStyle.None
+                            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            DisabledFill: =RGBA(244, 244, 244, 1)
+                            Fill: =_theme.LightGrey
+                            FontWeight: =FontWeight.Semibold
+                            Height: =Container10_6.Height
+                            HoverColor: =RGBA(255, 255, 255, 1)
+                            HoverFill: =Self.Fill
+                            OnSelect: =Select(Parent)
+                            PressedFill: =Self.Fill
+                            Size: =15
+                            Text: =""
+                            Width: =Parent.TemplateWidth-25
+                            Y: =4
+                            ZIndex: =1
+
+                        Separator1_5 As rectangle:
+                            BorderColor: =RGBA(32, 54, 71, 1)
+                            Fill: =RGBA(255, 255, 255, 1)
+                            Height: =8
+                            OnSelect: =Select(Parent)
+                            Width: =Parent.TemplateWidth
+                            Y: =Parent.TemplateHeight - Self.Height
+                            ZIndex: =3
+
+                        Container10_6 As groupContainer.horizontalAutoLayoutContainer:
+                            Height: =88
+                            LayoutAlignItems: =LayoutAlignItems.Center
+                            LayoutMode: =LayoutMode.Auto
+                            PaddingLeft: =5
+                            Width: =Parent.TemplateWidth-30
+                            Y: =6
+                            ZIndex: =4
+
+                            Container11_20 As groupContainer.verticalAutoLayoutContainer:
+                                FillPortions: =0
+                                LayoutDirection: =LayoutDirection.Vertical
+                                LayoutGap: =5
+                                LayoutMinHeight: =50
+                                LayoutMinWidth: =240
+                                LayoutMode: =LayoutMode.Auto
+                                PaddingLeft: =5
+                                PaddingTop: =10
+                                Width: =240
+                                ZIndex: =1
+
+                                Label12_46 As label:
+                                    Align: =Align.Center
+                                    AlignInContainer: =AlignInContainer.Start
+                                    BorderColor: =RGBA(32, 54, 71, 1)
+                                    Color: =Color.White
+                                    DisabledColor: =RGBA(166, 166, 166, 1)
+                                    Fill: |-
+                                        =Switch(
+                                            ThisItem.Type,
+                                            "Spending Request",
+                                            ColorValue("#975FC7"),
+                                            "Payment Request",
+                                            ColorValue("#7FB239"),
+                                            "Release Payment",
+                                            ColorValue("#DB6767")
+                                        )
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =25
+                                    Size: =12
+                                    Text: |-
+                                        =ThisItem.Type & "  #"& ThisItem.ID
+                                    Width: =220
+                                    ZIndex: =1
+
+                                Container12_12 As groupContainer.horizontalAutoLayoutContainer:
+                                    LayoutGap: =10
+                                    LayoutMinHeight: =10
+                                    LayoutMinWidth: =250
+                                    LayoutMode: =LayoutMode.Auto
+                                    PaddingLeft: =10
+                                    ZIndex: =2
+
+                                    Rectangle7_9 As rectangle:
+                                        AlignInContainer: =AlignInContainer.Center
+                                        BorderColor: =RGBA(32, 54, 71, 1)
+                                        Fill: |
+                                            =Switch(
+                                                Label12_47.Text,
+                                                "Awaiting approval",
+                                                ColorValue("#999999"),
+                                                "Pending",
+                                                ColorValue("#FFBF00"),
+                                                "You have approved",
+                                                ColorValue("#5B8245"),
+                                                "Rejected",
+                                                ColorValue("#D60404")
+                                            )
+                                        Height: =15
+                                        Width: =15
+                                        ZIndex: =1
+
+                                    Label12_47 As label:
+                                        AlignInContainer: =AlignInContainer.Center
+                                        BorderColor: =RGBA(32, 54, 71, 1)
+                                        Color: =_theme.Dark
+                                        DisabledColor: =RGBA(166, 166, 166, 1)
+                                        FontWeight: =FontWeight.Semibold
+                                        Height: =20
+                                        Size: =11.5
+                                        Text: |-
+                                            =If(
+                                                _currentUserEmail in ThisItem.CurrentApprover && ThisItem.ApprovalStatus = "In-progress",
+                                                "Awaiting approval",
+                                                If(
+                                                    _currentUserEmail in ThisItem.CurrentApprover && ThisItem.ApprovalStatus = "Pending",
+                                                    "Pending",
+                                                    If(
+                                                        _currentUserEmail in ThisItem.ApprovedBy,
+                                                        "You have approved",
+                                                        If(
+                                                            _currentUserEmail in ThisItem.RejectedBy,
+                                                            "Rejected",
+                                                            ""
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        Width: =200
+                                        ZIndex: =2
+
+                                all_period_8 As label:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    BorderColor: =RGBA(32, 54, 71, 1)
+                                    Color: =_theme.Dark
+                                    DisabledColor: =RGBA(166, 166, 166, 1)
+                                    FillPortions: =1
+                                    LayoutMinHeight: =20
+                                    Size: =11
+                                    Text: =ThisItem.BudgetPeriod
+                                    ZIndex: =3
+
+                            Container11_21 As groupContainer.verticalAutoLayoutContainer:
+                                LayoutDirection: =LayoutDirection.Vertical
+                                LayoutMinHeight: =40
+                                LayoutMinWidth: =220
+                                LayoutMode: =LayoutMode.Auto
+                                Width: =220
+                                ZIndex: =2
+
+                                all_period_9 As label:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    BorderColor: =RGBA(32, 54, 71, 1)
+                                    Color: =_theme.Dark
+                                    DisabledColor: =RGBA(166, 166, 166, 1)
+                                    FillPortions: =1
+                                    LayoutMinHeight: =20
+                                    Size: =11.5
+                                    Text: |-
+                                        ="Channel: " & ThisItem.Channel
+                                    ZIndex: =1
+
+                                all_dept_3 As label:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    BorderColor: =RGBA(32, 54, 71, 1)
+                                    Color: =_theme.Dark
+                                    DisabledColor: =RGBA(166, 166, 166, 1)
+                                    FillPortions: =1
+                                    LayoutMinHeight: =20
+                                    Size: =11.5
+                                    Text: |-
+                                        ="Department: " & ThisItem.Department
+                                    ZIndex: =2
+
+                                all_period_10 As label:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    BorderColor: =RGBA(32, 54, 71, 1)
+                                    Color: =_theme.Dark
+                                    DisabledColor: =RGBA(166, 166, 166, 1)
+                                    FillPortions: =1
+                                    LayoutMinHeight: =20
+                                    Size: =11.5
+                                    Text: |-
+                                        ="Category: " & ThisItem.BudgetCategory
+                                    ZIndex: =3
+
+                            Container11_22 As groupContainer.verticalAutoLayoutContainer:
+                                LayoutDirection: =LayoutDirection.Vertical
+                                LayoutMinHeight: =40
+                                LayoutMinWidth: =290
+                                LayoutMode: =LayoutMode.Auto
+                                ZIndex: =3
+
+                                Label12_48 As label:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    BorderColor: =RGBA(32, 54, 71, 1)
+                                    Color: =_theme.Dark
+                                    DisabledColor: =RGBA(166, 166, 166, 1)
+                                    FillPortions: =1
+                                    LayoutMinHeight: =20
+                                    Size: =11.5
+                                    Text: |-
+                                        ="Vendor: " & ThisItem.VendorName
+                                    ZIndex: =1
+
+                                Label12_49 As label:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    BorderColor: =RGBA(32, 54, 71, 1)
+                                    Color: =_theme.Dark
+                                    DisabledColor: =RGBA(166, 166, 166, 1)
+                                    FillPortions: =1
+                                    LayoutMinHeight: =20
+                                    Size: =11.5
+                                    Text: |-
+                                        ="Activity Code: " & ThisItem.ActivityCode
+                                    ZIndex: =2
+
+                                Label12_50 As label:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    BorderColor: =RGBA(32, 54, 71, 1)
+                                    Color: =_theme.Dark
+                                    DisabledColor: =RGBA(166, 166, 166, 1)
+                                    FillPortions: =1
+                                    LayoutMinHeight: =20
+                                    Size: =11.5
+                                    Text: |-
+                                        ="Quotation No: " & ThisItem.QuotationNumber
+                                    ZIndex: =3
+
+                            Container11_23 As groupContainer.verticalAutoLayoutContainer:
+                                LayoutDirection: =LayoutDirection.Vertical
+                                LayoutMinHeight: =40
+                                LayoutMinWidth: =200
+                                LayoutMode: =LayoutMode.Auto
+                                ZIndex: =4
+
+                                Label12_51 As label:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    BorderColor: =RGBA(32, 54, 71, 1)
+                                    Color: =_theme.Dark
+                                    DisabledColor: =RGBA(166, 166, 166, 1)
+                                    FillPortions: =1
+                                    LayoutMinHeight: =20
+                                    Size: =11.5
+                                    Text: |-
+                                        ="Amount: " & ThisItem.Currency &" "& Text(ThisItem.RequestedAmount, "#,##0.00")
+                                    ZIndex: =1
+
+                                Label12_52 As label:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    BorderColor: =RGBA(32, 54, 71, 1)
+                                    Color: =_theme.Dark
+                                    DisabledColor: =RGBA(166, 166, 166, 1)
+                                    FillPortions: =1
+                                    Height: =20
+                                    LayoutMinHeight: =20
+                                    Size: =11.5
+                                    Text: |-
+                                        ="Requestor: " & ThisItem.SubmittedBy.DisplayName
+                                    ZIndex: =2
+
+                                Label12_53 As label:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    BorderColor: =RGBA(32, 54, 71, 1)
+                                    Color: =_theme.Dark
+                                    DisabledColor: =RGBA(166, 166, 166, 1)
+                                    FillPortions: =1
+                                    LayoutMinHeight: =20
+                                    LayoutMinWidth: =80
+                                    Size: =11.5
+                                    Text: |-
+                                        ="Submitted On: " & Text(ThisItem.SubmittedDate, "dd/mm/yyyy")
+                                    ZIndex: =3
+
+                            NextArrow1_6 As icon.ChevronRight:
+                                AccessibleLabel: =Self.Tooltip
+                                Color: =RGBA(166, 166, 166, 1)
+                                Height: =50
+                                Icon: =Icon.ChevronRight
+                                OnSelect: |-
+                                    =Navigate(RequestApprovalScreen, ScreenTransition.None, {_RequestType: ThisItem.Type, _RequestId: ThisItem.RequestID});
+                                PaddingBottom: =16
+                                PaddingLeft: =16
+                                PaddingRight: =16
+                                PaddingTop: =16
+                                Tooltip: ="View item details"
+                                Width: =50
+                                X: =980
+                                Y: =26
+                                ZIndex: =5
+
+    SortingMenu_6 As groupContainer.manualLayoutContainer:
+        DropShadow: =DropShadow.Semilight
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =150
+        RadiusBottomLeft: =4
+        RadiusBottomRight: =4
+        RadiusTopLeft: =4
+        RadiusTopRight: =4
+        Visible: =_openSorting
+        Width: =215
+        X: =1120
+        Y: =315
+        ZIndex: =2
+
+        Container19_6 As groupContainer.verticalAutoLayoutContainer:
+            DropShadow: =DropShadow.Light
+            Height: =150
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutMode: =LayoutMode.Auto
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Width: =215
+            ZIndex: =1
+
+            submissionDateDesc_6 As button:
+                Align: =Align.Left
+                AlignInContainer: =AlignInContainer.Stretch
+                Color: =RGBA(128, 128, 128, 1)
+                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                Fill: =Color.Transparent
+                FillPortions: =1
+                FontWeight: =If(_sort="submitDesc", FontWeight.Semibold,FontWeight.Normal)
+                HoverFill: =Self.Fill
+                LayoutMinHeight: =30
+                OnSelect: |-
+                    =UpdateContext({_sort: "submitDesc"}); UpdateContext({_openSorting:false});
+                PaddingLeft: =10
+                PressedColor: =Self.Color
+                PressedFill: =Self.Fill
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =12
+                Text: ="Submission Date (Desc)"
+                ZIndex: =1
+
+            submissionDateAsc_6 As button:
+                Align: =Align.Left
+                AlignInContainer: =AlignInContainer.Stretch
+                Color: =RGBA(128, 128, 128, 1)
+                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                Fill: =Color.Transparent
+                FillPortions: =1
+                FontWeight: =If(_sort="submitAsc", FontWeight.Semibold,FontWeight.Normal)
+                HoverFill: =Self.Fill
+                LayoutMinHeight: =30
+                OnSelect: |-
+                    =UpdateContext({_sort: "submitAsc"});UpdateContext({_openSorting:false});
+                PaddingLeft: =10
+                PressedColor: =Self.Color
+                PressedFill: =Self.Fill
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =12
+                Text: ="Submission Date (Asc)"
+                ZIndex: =2
+
+            AmountDesc_6 As button:
+                Align: =Align.Left
+                AlignInContainer: =AlignInContainer.Stretch
+                Color: =RGBA(128, 128, 128, 1)
+                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                Fill: =Color.Transparent
+                FillPortions: =1
+                FontWeight: =If(_sort="amountDesc", FontWeight.Semibold,FontWeight.Normal)
+                HoverFill: =Self.Fill
+                LayoutMinHeight: =30
+                OnSelect: |-
+                    =UpdateContext({_sort: "amountDesc"});UpdateContext({_openSorting:false});
+                PaddingLeft: =10
+                PressedColor: =Self.Color
+                PressedFill: =Self.Fill
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =12
+                Text: ="Requested Amount (Desc)"
+                Y: =40
+                ZIndex: =3
+
+            AmountAsc_6 As button:
+                Align: =Align.Left
+                AlignInContainer: =AlignInContainer.Stretch
+                Color: =RGBA(128, 128, 128, 1)
+                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                Fill: =Color.Transparent
+                FillPortions: =1
+                FontWeight: =If(_sort="amountAsc", FontWeight.Semibold,FontWeight.Normal)
+                HoverFill: =Self.Fill
+                LayoutMinHeight: =30
+                OnSelect: |-
+                    =UpdateContext({_sort: "amountAsc"});UpdateContext({_openSorting:false});
+                PaddingLeft: =10
+                PressedColor: =Self.Color
+                PressedFill: =Self.Fill
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =12
+                Text: ="Requested Amount (Asc)"
+                ZIndex: =4
+
+    backdrop_9 As rectangle:
+        BorderColor: =RGBA(32, 54, 71, 1)
+        Fill: =RGBA(230, 230, 230, 0.48)
+        Height: =666
+        Visible: =_openFilter
+        Width: =1366
+        Y: =102
+        ZIndex: =3
+
+    onRefresh_3 As icon.Reload:
+        BorderColor: =RGBA(32, 54, 71, 1)
+        Color: =_theme.Primary
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledColor: =_theme.Dark
+        Height: =40
+        Icon: =Icon.Reload
+        OnSelect: |+
+            =Concurrent(
+            Refresh('Spending Request List'),
+            Refresh('Payment Request List'),
+            Refresh('Release Budget Request List');
+            Refresh('Outstanding Balance List');
+            );
+            
+            Concurrent(
+             ClearCollect(
+                    ColSpendingRequest,
+                    SortByColumns(
+                    'Spending Request List', "ID", SortOrder.Descending)
+                ),
+             ClearCollect(
+                    ColPaymentRequest,
+                    SortByColumns(
+                    'Payment Request List', "ID", SortOrder.Descending)
+                ),
+             ClearCollect(
+                    ColReleasePaymentRequest,
+                      SortByColumns(
+                    'Release Budget Request List', "ID", SortOrder.Descending)
+                ),
+                
+                 ClearCollect(
+                    ColOutstandingBalance,
+                    Filter('Outstanding Balance List', IsSettled=false)
+                ));
+            
+            ClearCollect(
+                ColAllRequests,
+                AddColumns(
+                    AddColumns(
+                        AddColumns(
+                            ColSpendingRequest,
+                            Type,
+                            "Spending Request",
+                            RequestID,
+                            ID,
+                            MaxApprovalLayer,
+                            CountRows(
+                                Split(
+                                    ApprovalPath,
+                                    ">"
+                                )
+                            ),
+                            Month,
+                            First(
+                                Split(
+                                    BudgetPeriod,
+                                    "/"
+                                )
+                            ),
+                            Year,
+                            Last(
+                                Split(
+                                    BudgetPeriod,
+                                    "/"
+                                )
+                            )
+                        ),
+                        OutstandingPendingAmount,
+                        Sum(
+                            Filter(
+                                ColOutstandingBalance,
+                                SpendingRequestID = RequestID && RequestStatus = "In-progress" && RequestType = "Payment Request"
+                            ),
+                            RequestedAmount
+                        ),
+                        OutstandingApprovedAmount,
+                        Sum(
+                            Filter(
+                                ColOutstandingBalance,
+                                SpendingRequestID = RequestID && RequestStatus = "Approved" && RequestType = "Payment Request"
+                            ),
+                            RequestedAmount
+                        ),
+                          OutstandingRejectedAmount,
+                        Sum(
+                            Filter(
+                                ColOutstandingBalance,
+                                SpendingRequestID = RequestID && RequestStatus = "Rejected" && RequestType = "Payment Request"
+                            ),
+                            RequestedAmount
+                        ),
+                        OutstandingPendingReleaseAmount,
+                        Sum(
+                            Filter(
+                                ColOutstandingBalance,
+                                SpendingRequestID = RequestID && RequestStatus = "In-progress" && RequestType = "Release Payment"
+                            ),
+                            RequestedAmount
+                        ),
+                        OutstandingReleasedAmount,
+                        Sum(
+                            Filter(
+                                ColOutstandingBalance,
+                                SpendingRequestID = RequestID && RequestStatus = "Approved" && RequestType = "Release Payment"
+                            ),
+                            RequestedAmount
+                        ),
+                        OutstandingRejectReleaseAmount,
+                        Sum(
+                            Filter(
+                                ColOutstandingBalance,
+                                SpendingRequestID = RequestID && RequestStatus = "Rejected" && RequestType = "Release Payment"
+                            ),
+                            RequestedAmount
+                        )
+                    ), 
+                    RemainingBalance,
+                    RequestedAmount - ApprovedPaymentAmount - OutstandingApprovedAmount - ReleasedAmount - OutstandingReleasedAmount,
+                    ApprovedBalance,
+                    ApprovedPaymentAmount + OutstandingApprovedAmount,
+                    PendingBalance,
+                    PendingPaymentAmount + OutstandingPendingAmount - OutstandingRejectedAmount - OutstandingApprovedAmount,
+                    ReleasedBalance,
+                    ReleasedAmount + OutstandingReleasedAmount,
+                    PendingReleaseBalance,
+                    PendingReleaseAmount + OutstandingPendingReleaseAmount - OutstandingRejectReleaseAmount - OutstandingReleasedAmount
+                    ),
+                AddColumns(
+                    ColPaymentRequest,
+                    Type,
+                    "Payment Request",
+                    RequestID,
+                    ID,
+                    MaxApprovalLayer,
+                    CountRows(
+                        Split(
+                            ApprovalPath,
+                            ">"
+                        )
+                    ),
+                    Month,
+                    First(
+                        Split(
+                            BudgetPeriod,
+                            "/"
+                        )
+                    ),
+                    Year,
+                    Last(
+                        Split(
+                            BudgetPeriod,
+                            "/"
+                        )
+                    )
+                ),
+                AddColumns(
+                    ColReleasePaymentRequest,
+                    Type,
+                    "Release Payment",
+                    RequestID,
+                    ID,
+                    MaxApprovalLayer,
+                    CountRows(
+                        Split(
+                            ApprovalPath,
+                            ">"
+                        )
+                    ),
+                    Month,
+                    First(
+                        Split(
+                            BudgetPeriod,
+                            "/"
+                        )
+                    ),
+                    Year,
+                    Last(
+                        Split(
+                            BudgetPeriod,
+                            "/"
+                        )
+                    )
+                )
+            );
+            
+            ClearCollect(
+                ColApprovalRequests,
+                Filter(ColAllRequests, CurrentApprover = _currentUserEmail || _currentUserEmail in ApprovedBy || _currentUserEmail in ReviewedBy || _currentUserEmail in RejectedBy)
+            );
+            
+        Width: =40
+        X: =1314
+        Y: =142
+        ZIndex: =4
+
+    filterMenu_5 As groupContainer.manualLayoutContainer:
+        DropShadow: =DropShadow.Regular
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =666
+        Visible: =_openFilter
+        Width: =389
+        X: =975
+        Y: =102
+        ZIndex: =5
+
+        Container20_5 As groupContainer.verticalAutoLayoutContainer:
+            DropShadow: =DropShadow.Light
+            Height: =Parent.Height
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =5
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =15
+            PaddingRight: =10
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Width: =Parent.Width
+            ZIndex: =1
+
+            Container22_5 As groupContainer.horizontalAutoLayoutContainer:
+                FillPortions: =0
+                Height: =50
+                LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingRight: =5
+                ZIndex: =1
+
+                Label17_5 As label:
+                    AlignInContainer: =AlignInContainer.Stretch
+                    BorderColor: =RGBA(32, 54, 71, 1)
+                    Color: =_theme.Primary
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FontWeight: =FontWeight.Bold
+                    Height: =60
+                    PaddingLeft: =0
+                    Size: =16
+                    Text: ="Filter"
+                    ZIndex: =1
+
+                Icon7_5 As icon.Cancel:
+                    AlignInContainer: =AlignInContainer.Center
+                    BorderColor: =RGBA(32, 54, 71, 1)
+                    Color: |-
+                        =ColorValue("#888888")
+                    DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledColor: =RGBA(244, 244, 244, 1)
+                    Height: =30
+                    Icon: =Icon.Cancel
+                    OnSelect: |-
+                        =UpdateContext({_openFilter:false})
+                    Width: =30
+                    ZIndex: =2
+
+            DeptFilter_3 As groupContainer.verticalAutoLayoutContainer:
+                FillPortions: =0
+                Height: =80
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =5
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingLeft: =5
+                PaddingRight: =5
+                ZIndex: =2
+
+                Label18_15 As label:
+                    BorderColor: =RGBA(32, 54, 71, 1)
+                    Color: =_theme.Secondnary
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FontWeight: =FontWeight.Semibold
+                    Height: =30
+                    PaddingLeft: =0
+                    Size: =12
+                    Text: ="Department"
+                    ZIndex: =1
+
+                ComboBox1_141 As combobox:
+                    AlignInContainer: =AlignInContainer.Stretch
+                    BorderColor: =_theme.Primary
+                    ChevronBackground: =_theme.Primary
+                    ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+                    ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+                    ChevronHoverBackground: =ColorFade(_theme.Primary, -20%)
+                    ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                    DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisabledFill: =RGBA(244, 244, 244, 1)
+                    DisplayFields: =["Value"]
+                    Height: =36
+                    HoverBorderColor: =Parent.BorderColor
+                    HoverColor: =RGBA(0, 0, 0, 1)
+                    HoverFill: =_theme.Light
+                    InputTextPlaceholder: ="All"
+                    Items: =Distinct(ColApprovalRequests, Department)
+                    NoSelectionText: ="All"
+                    PressedColor: =RGBA(255, 255, 255, 1)
+                    PressedFill: =_theme.Primary
+                    SearchFields: =["Value"]
+                    SearchItems: =Search(Distinct(ColApprovalRequests, Department),ComboBox1_141.SearchText,Value)
+                    SelectionFill: =_theme.Primary
+                    Size: =13
+                    Width: =190
+                    X: =30
+                    Y: =49
+                    ZIndex: =2
+
+            CategoryFilter_5 As groupContainer.verticalAutoLayoutContainer:
+                FillPortions: =0
+                Height: =80
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =5
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingLeft: =5
+                PaddingRight: =5
+                ZIndex: =3
+
+                Label18_22 As label:
+                    BorderColor: =RGBA(32, 54, 71, 1)
+                    Color: =_theme.Secondnary
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FontWeight: =FontWeight.Semibold
+                    Height: =30
+                    PaddingLeft: =0
+                    Size: =12
+                    Text: ="Category"
+                    ZIndex: =1
+
+                ComboBox1_142 As combobox:
+                    BorderColor: =_theme.Primary
+                    ChevronBackground: =_theme.Primary
+                    ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+                    ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+                    ChevronHoverBackground: =ColorFade(_theme.Primary, -20%)
+                    ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                    DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisabledFill: =RGBA(244, 244, 244, 1)
+                    DisplayFields: =["Value"]
+                    Height: =36
+                    HoverBorderColor: =Parent.BorderColor
+                    HoverColor: =RGBA(0, 0, 0, 1)
+                    HoverFill: =_theme.Light
+                    InputTextPlaceholder: ="All"
+                    Items: =Distinct(ColApprovalRequests, BudgetCategory)
+                    NoSelectionText: ="All"
+                    PressedColor: =RGBA(255, 255, 255, 1)
+                    PressedFill: =_theme.Primary
+                    SearchFields: =["Value"]
+                    SearchItems: =Search(Distinct(ColApprovalRequests, BudgetCategory),ComboBox1_142.SearchText,Value)
+                    SelectionFill: =_theme.Primary
+                    Size: =13
+                    Width: =190
+                    X: =30
+                    Y: =49
+                    ZIndex: =2
+
+            ChannelFilter_5 As groupContainer.verticalAutoLayoutContainer:
+                FillPortions: =0
+                Height: =80
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =5
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingLeft: =5
+                PaddingRight: =5
+                ZIndex: =4
+
+                Label18_23 As label:
+                    BorderColor: =RGBA(32, 54, 71, 1)
+                    Color: =_theme.Secondnary
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FontWeight: =FontWeight.Semibold
+                    Height: =30
+                    PaddingLeft: =0
+                    Size: =12
+                    Text: ="Channel"
+                    ZIndex: =1
+
+                ComboBox1_143 As combobox:
+                    AlignInContainer: =AlignInContainer.Stretch
+                    BorderColor: =_theme.Primary
+                    ChevronBackground: =_theme.Primary
+                    ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+                    ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+                    ChevronHoverBackground: =ColorFade(_theme.Primary, -20%)
+                    ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                    DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisabledFill: =RGBA(244, 244, 244, 1)
+                    DisplayFields: =["Value"]
+                    Height: =36
+                    HoverBorderColor: =Parent.BorderColor
+                    HoverColor: =RGBA(0, 0, 0, 1)
+                    HoverFill: =_theme.Light
+                    InputTextPlaceholder: ="All"
+                    Items: =Distinct(ColApprovalRequests, Channel)
+                    NoSelectionText: ="All"
+                    PressedColor: =RGBA(255, 255, 255, 1)
+                    PressedFill: =_theme.Primary
+                    SearchFields: =["Value"]
+                    SearchItems: =Search(Distinct(ColApprovalRequests, Channel),ComboBox1_143.SearchText,Value)
+                    SelectionFill: =_theme.Primary
+                    Size: =13
+                    Width: =190
+                    X: =30
+                    Y: =49
+                    ZIndex: =2
+
+            SubmittedFilter_3 As groupContainer.verticalAutoLayoutContainer:
+                FillPortions: =0
+                Height: =80
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =5
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingLeft: =5
+                PaddingRight: =5
+                ZIndex: =5
+
+                Label18_24 As label:
+                    BorderColor: =RGBA(32, 54, 71, 1)
+                    Color: =_theme.Secondnary
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FontWeight: =FontWeight.Semibold
+                    Height: =30
+                    PaddingLeft: =0
+                    Size: =12
+                    Text: ="Submitted On"
+                    ZIndex: =1
+
+                DatePicker1_2 As datepicker:
+                    AlignInContainer: =AlignInContainer.Stretch
+                    BorderColor: =_theme.Primary
+                    CalendarHeaderFill: =RGBA(100, 118, 132, 1)
+                    Color: =RGBA(0, 0, 0, 1)
+                    DefaultDate: =
+                    DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisabledFill: =RGBA(244, 244, 244, 1)
+                    HoverDateFill: =RGBA(205, 209, 213, 1)
+                    IconBackground: =_theme.Primary
+                    InputTextPlaceholder: ="All"
+                    SelectedDateFill: =RGBA(100, 118, 132, 1)
+                    Tooltip: ="A"
+                    ZIndex: =2
+
+            AmountFilter_5 As groupContainer.verticalAutoLayoutContainer:
+                FillPortions: =0
+                Height: =110
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingLeft: =5
+                PaddingRight: =5
+                ZIndex: =7
+
+                Label18_25 As label:
+                    BorderColor: =RGBA(32, 54, 71, 1)
+                    Color: =_theme.Secondnary
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FontWeight: =FontWeight.Semibold
+                    Height: =30
+                    PaddingLeft: =0
+                    Size: =12
+                    Text: ="Amount"
+                    ZIndex: =1
+
+                amountTitle_5 As groupContainer.horizontalAutoLayoutContainer:
+                    FillPortions: =0
+                    Height: =30
+                    LayoutAlignItems: =LayoutAlignItems.Center
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingRight: =5
+                    ZIndex: =3
+
+                    Label19_28 As label:
+                        BorderColor: =RGBA(32, 54, 71, 1)
+                        Color: =RGBA(0, 0, 0, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        FillPortions: =1
+                        Height: =30
+                        Size: =13
+                        Text: |-
+                            ="Min:"
+                        Width: =50
+                        ZIndex: =1
+
+                    Label19_29 As label:
+                        BorderColor: =RGBA(32, 54, 71, 1)
+                        Color: =RGBA(0, 0, 0, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        FillPortions: =1
+                        Height: =30
+                        Size: =13
+                        Text: |-
+                            ="Max:"
+                        Width: =50
+                        ZIndex: =2
+
+                amountValue_5 As groupContainer.horizontalAutoLayoutContainer:
+                    FillPortions: =0
+                    Height: =50
+                    LayoutAlignItems: =LayoutAlignItems.Center
+                    LayoutGap: =5
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingLeft: =5
+                    PaddingRight: =5
+                    ZIndex: =4
+
+                    TextInput4_11 As text:
+                        BorderColor: =_theme.Primary
+                        BorderThickness: =2
+                        Color: =_theme.Primary
+                        Default: =0
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        FillPortions: =1
+                        FocusedBorderThickness: =2
+                        Format: =TextFormat.Number
+                        HoverBorderColor: =RGBA(32, 54, 71, 1)
+                        HoverColor: =RGBA(0, 0, 0, 1)
+                        HoverFill: =RGBA(205, 209, 213, 1)
+                        LayoutMinWidth: =80
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Size: =13
+                        ZIndex: =2
+
+                    TextInput4_12 As text:
+                        BorderColor: =_theme.Primary
+                        BorderThickness: =2
+                        Color: =RGBA(0, 0, 0, 1)
+                        Default: =Max(ColAllRequests, RequestedAmount)
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        FillPortions: =1
+                        FocusedBorderThickness: =2
+                        Format: =TextFormat.Number
+                        HoverBorderColor: =RGBA(32, 54, 71, 1)
+                        HoverColor: =RGBA(0, 0, 0, 1)
+                        HoverFill: =RGBA(205, 209, 213, 1)
+                        LayoutMinWidth: =80
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Size: =13
+                        ZIndex: =3
+
+            clear_5 As groupContainer.manualLayoutContainer:
+                LayoutMinHeight: =40
+                LayoutMinWidth: =250
+                ZIndex: =8
+
+                Button11_5 As button:
+                    BorderStyle: =BorderStyle.None
+                    DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisabledFill: =RGBA(244, 244, 244, 1)
+                    Fill: =_theme.Primary
+                    FontWeight: =FontWeight.Semibold
+                    Height: =35
+                    HoverColor: =RGBA(255, 255, 255, 1)
+                    HoverFill: =ColorFade(_theme.Primary, -20%)
+                    PressedColor: =Self.Color
+                    PressedFill: =Self.Fill
+                    RadiusBottomLeft: =5
+                    RadiusBottomRight: =5
+                    RadiusTopLeft: =5
+                    RadiusTopRight: =5
+                    Size: =15
+                    Text: ="Clear"
+                    X: =195
+                    Y: =30
+                    ZIndex: =1
+

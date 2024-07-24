@@ -1,0 +1,10 @@
+[
+  {
+    "ApiId": "/providers/microsoft.powerapps/apis/shared_logicflows",
+    "FlowNameId": "9bc763a7-9e9b-4139-9b91-68f6e0a377a2",
+    "Name": "[MSF]UploadExcelFiletoupdateSharepointList",
+    "ServiceKind": "ConnectedWadl",
+    "Type": "ServiceInfo",
+    "WorkflowEntityId": null
+  }
+]
